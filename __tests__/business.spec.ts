@@ -45,4 +45,19 @@ describe('Testing Business operations', () => {
         // 2nd should be complete
         expect(business.getProduction(Date.now() + 1001)).toBe(4);
     });
+
+    it('Test Business work progress', async () => {
+        const business = new Business('a', '', 'a', 1, 1, 2);
+        business.work();
+
+        // it should be starting
+        expect(business.getProgress(Date.now())).toBeCloseTo(0);
+
+        // it should be half way half a second later
+        expect(business.getProgress(Date.now() + 500)).toBeCloseTo(.5);
+
+        // it should be complete a second later
+        expect(business.getProgress(Date.now() + 1000)).toBeCloseTo(1);
+    });
+
 });
