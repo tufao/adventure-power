@@ -60,4 +60,13 @@ describe('Testing Business operations', () => {
         expect(business.getProgress(Date.now() + 1000)).toBeCloseTo(1);
     });
 
+    it('Test Business progress with no work', async () => {
+        const business = new Business('a', '', 'a', 1, 1, 2);
+
+        // no progress regardless of the time
+        expect(business.getProgress(Date.now())).toBeCloseTo(0);
+        expect(business.getProgress(Date.now() + 500)).toBeCloseTo(0);
+        expect(business.getProgress(Date.now() + 1000)).toBeCloseTo(0);
+    });
+
 });

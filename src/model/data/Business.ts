@@ -36,6 +36,9 @@ export class Business {
     }
 
     public getProgress(timestamp:number):number {
+        if (this._productionEnds === 0) {
+            return 0;
+        }
         return 1 - (this._productionEnds - timestamp) / this._time;
     }
 }
