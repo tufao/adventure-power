@@ -8,7 +8,7 @@
       <div><button type="button" @click="start" :class="{disabled: !item.isReady(time)}">GO!</button></div>
     </div>
     <div>
-      <div><button type="button">1x Buy {{ item.capacity }} kW</button></div>
+      <div><button type="button" @click="$emit('buy', item)">1x Buy {{ item.capacity }} kW</button></div>
     </div>
   </div>
 </template>
