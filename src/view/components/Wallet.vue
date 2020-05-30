@@ -1,6 +1,6 @@
 <template>
   <div class="wallet">
-    <BusinessItem v-for="(item, index) in wallet.getBusiness()" :key="index" :item="item"/>
+    <BusinessItem v-for="(item, index) in wallet.getBusiness()" :key="index" :item="item" :time="time" />
   </div>
 </template>
 
@@ -17,6 +17,7 @@ import { Wallet } from '../../model/data/Wallet';
 })
 export default class WalletItem extends Vue {
   @Prop() private wallet!: Wallet;
+  @Prop() private time!: number;
 
   mounted() {
   }

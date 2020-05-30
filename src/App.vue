@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Power Adventure</h1>
     <div v-if="show">
-      <WalletItem :wallet="wallet"/>
+      <WalletItem :wallet="wallet" :time="time" />
     </div>
   </div>
 </template>
@@ -21,11 +21,14 @@ import { Wallet } from './model/data/Wallet';
 export default class App extends Vue {
   private show: boolean = false;
   private wallet!: Wallet;
+  private time!: number;
 
   public mounted() {
+    this.time = Date.now();
+
     this.wallet = new Wallet();
-    const pedal = new Business('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1, Date.now());
-    const bio = new Business('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60, Date.now());
+    const pedal = new Business('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1, this.time);
+    const bio = new Business('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60, this.time);
     this.wallet.addBusiness(pedal);
     this.wallet.addBusiness(bio);
 

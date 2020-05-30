@@ -21,6 +21,7 @@ import { Business } from '../../model/data/Business';
 @Component
 export default class BusinessItem extends Vue {
   @Prop() private item!: Business;
+  @Prop() private time!: number;
 
   private production: number = 0;
 
@@ -29,18 +30,18 @@ export default class BusinessItem extends Vue {
   }
 
   mounted() {
-    this.production = this.item.getProduction(Date.now());
+    this.production = this.item.getProduction(this.time);
   }
 
   start() {
-    if (!this.item.isReady(Date.now())) {
+    if (!this.item.isReady(this.time)) {
       return;
     }
 
-    this.item.work(Date.now());
+    this.item.work(this.time);
 
     setTimeout(() => {
-      this.production = this.item.getProduction(Date.now());
+      this.production = this.item.getProduction(this.time);
     }, this.item.time);
   }
 }
