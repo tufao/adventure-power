@@ -63,6 +63,7 @@ export class Business {
         if (this._counter === 0) {
             return 0;
         }
-        return 1 - (this._productionEnds - timestamp) / this._time;
+        const perc = 1 - (this._productionEnds - timestamp) / this._time;
+        return Math.min(Math.max(0, perc), 1);
     }
 }

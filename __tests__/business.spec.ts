@@ -59,6 +59,9 @@ describe('Testing Business operations', () => {
 
         // it should be complete a second later
         expect(business.getProgress(Date.now() + 1000)).toBeCloseTo(1);
+
+        // it should be 100% complete later
+        expect(business.getProgress(Date.now() + 2000)).toBe(1);
     });
 
     it('Test Business progress with no work', async () => {
