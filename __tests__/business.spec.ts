@@ -59,6 +59,9 @@ describe('Testing Business operations', () => {
 
         // it should be complete a second later
         expect(business.getProgress(Date.now() + 1000)).toBeCloseTo(1);
+
+        // it should be 100% complete later
+        expect(business.getProgress(Date.now() + 2000)).toBe(1);
     });
 
     it('Test Business progress with no work', async () => {
@@ -92,4 +95,14 @@ describe('Testing Business operations', () => {
         expect(b1.getProduction(Date.now()) + b2.getProduction(Date.now()) + b3.getProduction(Date.now())).toBe(80);
     });
 
+    it('Test Business ready to work', async () => {
+        const time = Date.now();
+        const business = new Business('a', '', 'a', 1, 1, 2, time);
+        business.work(time);
+
+        // it should be falsy
+        expect(business.isReady(time + 500)).toBeFalsy();
+        // it should be ready
+        expect(business.isReady(time + 1000)).toBeTruthy();
+    });
 });

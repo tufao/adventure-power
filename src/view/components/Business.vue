@@ -1,0 +1,81 @@
+<template>
+  <div class="business">
+    <div>
+      <div><img :src="icon" width="50" /></div>
+      <div>{{ item.name }}</div>
+      <div>{{ item.time / 1000 }}</div>
+      <div>{{ production }} kWh</div>
+      <div><button type="button" @click="start" :style="{disabled:!item.ready}">GO!</button></div>
+    </div>
+    <div>
+      <div><button type="button">1x Buy {{ item.capacity }} kW</button></div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'vue-property-decorator';
+// eslint-disable-next-line no-unused-vars
+import { Business } from '../../model/data/Business';
+
+@Component
+export default class BusinessItem extends Vue {
+  @Prop() private item!: Business;
+
+  private production: number = 0;
+
+  get icon() {
+    return require(`@static/${this.item.icon}`);
+  }
+
+  mounted() {
+    this.production = this.item.getProduction(Date.now());
+  }
+
+  start() {
+    if (!this.item.isReady(Date.now())) {
+      return;
+    }
+
+    this.item.work(Date.now());
+
+    setTimeout(() => {
+      this.production = this.item.getProduction(Date.now());
+    }, this.item.time);
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.business {
+  display: flex;
+  width: 500px;
+  flex-direction: column;
+  border: 1px solid grey;
+}
+
+.business > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+button {
+  border: blue;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  background: green;
+}
+
+button.disabled {
+  background: grey;
+}
+</style>

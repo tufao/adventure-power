@@ -25,8 +25,24 @@ export class Business {
         return this._type;
     }
 
+    get icon():string {
+        return this._icon;
+    }
+
+    get name():string {
+        return this._name;
+    }
+
     get cost():number {
         return this._cost;
+    }
+
+    get time():number {
+        return this._time;
+    }
+
+    get capacity():number {
+        return this._capacity;
     }
 
     public getProduction(timestamp:number):number {
@@ -47,6 +63,12 @@ export class Business {
         if (this._counter === 0) {
             return 0;
         }
-        return 1 - (this._productionEnds - timestamp) / this._time;
+        const perc = 1 - (this._productionEnds - timestamp) / this._time;
+        return Math.min(Math.max(0, perc), 1);
     }
+
+    public isReady(timestamp:number):boolean {
+        return this._counter === 0 || this.getProgress(timestamp) === 1;
+    }
+
 }
