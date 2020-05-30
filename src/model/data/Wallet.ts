@@ -28,10 +28,10 @@ export class Wallet {
         return this._items.reduce((acc:number, curr:Business) => acc + (curr.getProduction(timestamp) || 0), 0);
     }
 
-    public workBusinessOf(type:string) {
+    public workBusinessOf(type:string, timestamp:number) {
         this._items.forEach((business:Business) => {
             if (business.type === type) {
-                business.work();
+                business.work(timestamp);
             }
         })
     }

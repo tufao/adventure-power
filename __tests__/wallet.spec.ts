@@ -54,25 +54,38 @@ describe('Testing Wallet operations', () => {
     });
 
     it('Wallet business production', async () => {
-        const lemons1 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, Date.now());
-        const lemons2 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, Date.now());
-        const news = new Business('newspaper', '', 'Newspaper', 60, 3, 60, Date.now());
+        let timestamp = Date.now();
+        const lemons1 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, timestamp);
         expect(wallet.getProduction(Date.now())).toBe(0);
 
         // add lemons and squeeze them
         wallet.addBusiness(lemons1);
-        wallet.workBusinessOf('lemons');
-        expect(wallet.getProduction(Date.now())).toBe(0);
+        wallet.workBusinessOf('lemons', timestamp);
+        expect(wallet.getProduction(timestamp)).toBe(0);
 
-        // wait a second to check again
-        await new Promise((resolve) => setInterval(resolve, 1001));
-        expect(wallet.getProduction(Date.now())).toBe(1);
+        // check a second later
+        timestamp += 1000;
+        expect(wallet.getProduction(timestamp)).toBe(1);
 
+        const lemons2 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, timestamp);
         wallet.addBusiness(lemons2);
-        wallet.workBusinessOf('lemons');
+        wallet.workBusinessOf('lemons', timestamp);
 
-        // wait a second to check again
-        await new Promise((resolve) => setInterval(resolve, 1001));
-        expect(wallet.getProduction(Date.now())).toBe(3);
+        // check another second later
+        timestamp += 1000;
+        expect(wallet.getProduction(timestamp)).toBe(3);
+
+        // add newspaper and start printing
+        const news = new Business('newspaper', '', 'Newspaper', 60, 3, 60, timestamp);
+        wallet.addBusiness(news);
+        wallet.workBusinessOf('newspaper', timestamp);
+
+        // check 2 seconds later
+        timestamp += 2000;
+        expect(wallet.getProduction(timestamp)).toBe(3);
+
+        // check another second later to be ready
+        timestamp += 1000;
+        expect(wallet.getProduction(timestamp)).toBe(63);
     });
 });
