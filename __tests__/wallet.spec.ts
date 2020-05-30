@@ -52,4 +52,27 @@ describe('Testing Wallet operations', () => {
         wallet.addBusiness(news);
         expect(wallet.cost).toBe(68);
     });
+
+    it('Wallet business production', async () => {
+        const lemons1 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, Date.now());
+        const lemons2 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, Date.now());
+        const news = new Business('newspaper', '', 'Newspaper', 60, 3, 60, Date.now());
+        expect(wallet.getProduction(Date.now())).toBe(0);
+
+        // add lemons and squeeze them
+        wallet.addBusiness(lemons1);
+        wallet.workBusinessOf('lemons');
+        expect(wallet.getProduction(Date.now())).toBe(0);
+
+        // wait a second to check again
+        await new Promise((resolve) => setInterval(resolve, 1001));
+        expect(wallet.getProduction(Date.now())).toBe(1);
+
+        wallet.addBusiness(lemons2);
+        wallet.workBusinessOf('lemons');
+
+        // wait a second to check again
+        await new Promise((resolve) => setInterval(resolve, 1001));
+        expect(wallet.getProduction(Date.now())).toBe(3);
+    });
 });

@@ -34,13 +34,13 @@ export class Business {
         return (this._counter - 1) * this._capacity + last;
     }
 
-    public work() {
-        if (Date.now() < this._productionEnds) {
+    public work(timestamp:number) {
+        if (timestamp < this._productionEnds) {
             throw new Error('busy');
         }
 
         this._counter++;
-        this._productionEnds = Date.now() + this._time;
+        this._productionEnds = timestamp + this._time;
     }
 
     public getProgress(timestamp:number):number {
