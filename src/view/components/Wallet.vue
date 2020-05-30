@@ -1,6 +1,6 @@
 <template>
   <div class="wallet">
-    <BusinessItem v-for="(item, index) in wallet.getBusiness()" :key="index" :item="item" :time="time" />
+    <BusinessItem v-for="(item, index) in wallet.getBusiness()" :key="index" :item="item" :time="time" v-on:buy="buyBusines" />
   </div>
 </template>
 
@@ -9,6 +9,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import BusinessItem from './Business.vue';
 // eslint-disable-next-line no-unused-vars
 import { Wallet } from '../../model/data/Wallet';
+import { Business } from '../../model/data/Business';
 
 @Component({
   components: {
@@ -20,6 +21,11 @@ export default class WalletItem extends Vue {
   @Prop() private time!: number;
 
   mounted() {
+  }
+
+  buyBusines(business: Business) {
+    const newBusiness = new Business(business.type, this.time);
+    this.wallet.addBusiness(newBusiness);
   }
 }
 </script>
