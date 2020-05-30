@@ -9,7 +9,7 @@ export class Business {
     private _counter:number;
     private _productionEnds:number;
 
-    constructor(type:string, icon:string, name:string, cost:number, time:number, capacity:number) {
+    constructor(type:string, icon:string, name:string, cost:number, time:number, capacity:number, created:number) {
         this._type = type;
         this._icon = icon;
         this._name = name;
@@ -18,7 +18,15 @@ export class Business {
         this._capacity = capacity;
 
         this._counter = 0;
-        this._productionEnds = 0;
+        this._productionEnds = created;
+    }
+
+    get type():string {
+        return this._type;
+    }
+
+    get cost():number {
+        return this._cost;
     }
 
     public getProduction(timestamp:number):number {
@@ -26,17 +34,17 @@ export class Business {
         return (this._counter - 1) * this._capacity + last;
     }
 
-    public work() {
-        if (Date.now() < this._productionEnds) {
+    public work(timestamp:number) {
+        if (timestamp < this._productionEnds) {
             throw new Error('busy');
         }
 
         this._counter++;
-        this._productionEnds = Date.now() + this._time;
+        this._productionEnds = timestamp + this._time;
     }
 
     public getProgress(timestamp:number):number {
-        if (this._productionEnds === 0) {
+        if (this._counter === 0) {
             return 0;
         }
         return 1 - (this._productionEnds - timestamp) / this._time;
