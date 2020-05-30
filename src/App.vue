@@ -22,7 +22,7 @@ export default class App extends Vue {
   private business!: Business;
 
   public mounted() {
-    this.business = new Business('paddle', 'paddle.png', 'Paddling', 4, 0.5, 1, Date.now());
+    this.business = new Business('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1, Date.now());
     this.show = true;
   }
 }

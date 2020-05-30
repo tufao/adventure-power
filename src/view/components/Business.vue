@@ -1,11 +1,15 @@
 <template>
   <div class="business">
-    <div>{{ item.name }}</div>
-    <div>{{ item.icon }}</div>
-    <div>{{ item.capacity }}</div>
-    <div>{{ item.time / 1000 }}</div>
-    <div>{{ production }}</div>
-    <div><button type="button" @click="start" :style="{disabled:!item.ready}">GO!</button></div>
+    <div>
+      <div><img :src="icon" width="50" /></div>
+      <div>{{ item.name }}</div>
+      <div>{{ item.time / 1000 }}</div>
+      <div>{{ production }} kWh</div>
+      <div><button type="button" @click="start" :style="{disabled:!item.ready}">GO!</button></div>
+    </div>
+    <div>
+      <div><button type="button">1x Buy {{ item.capacity }} kW</button></div>
+    </div>
   </div>
 </template>
 
@@ -19,6 +23,10 @@ export default class BusinessItem extends Vue {
   @Prop() private item!: Business;
 
   private production: number = 0;
+
+  get icon() {
+    return require(`@static/${this.item.icon}`);
+  }
 
   mounted() {
     this.production = this.item.getProduction(Date.now());
@@ -43,9 +51,14 @@ export default class BusinessItem extends Vue {
 .business {
   display: flex;
   width: 500px;
+  flex-direction: column;
+  border: 1px solid grey;
+}
+
+.business > div {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid grey;
   padding: 10px;
 }
 
