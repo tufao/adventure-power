@@ -27,23 +27,24 @@ describe('Testing Business operations', () => {
     });
 
     it('Test Business doubble production given the time', async () => {
-        const business = new Business('a', '', 'a', 1, 1, 2, Date.now());
-        business.work(Date.now());
+        let time = Date.now();
+        const business = new Business('a', '', 'a', 1, 1, 2, time);
+        business.work(time);
 
-        // wait a second to work again
-        await new Promise((resolve) => setInterval(resolve, 1001));
+        // give it a second
+        time += 1001;
 
         // 1st should be complete
-        expect(business.getProduction(Date.now())).toBe(2);
+        expect(business.getProduction(time)).toBe(2);
 
         // work on 2nd
-        business.work(Date.now());
+        business.work(time);
 
         // 2nd not yet done
-        expect(business.getProduction(Date.now())).toBe(2);
+        expect(business.getProduction(time)).toBe(2);
 
         // 2nd should be complete
-        expect(business.getProduction(Date.now() + 1001)).toBe(4);
+        expect(business.getProduction(time + 1001)).toBe(4);
     });
 
     it('Test Business work progress', async () => {
