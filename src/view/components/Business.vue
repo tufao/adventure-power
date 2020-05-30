@@ -53,13 +53,14 @@ export default class BusinessItem extends Vue {
   width: 500px;
   flex-direction: column;
   border: 1px solid grey;
+  margin: 10px;
+  padding: 10px;
 }
 
 .business > div {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
 }
 
 button {
