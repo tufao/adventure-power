@@ -69,4 +69,26 @@ describe('Testing Business operations', () => {
         expect(business.getProgress(Date.now() + 1000)).toBeCloseTo(0);
     });
 
+    it('Test several instance of Business', async () => {
+        const b1 = new Business('a', '', 'a', 1, 0, 10, Date.now());
+        b1.work();
+        expect(b1.getProduction(Date.now())).toBe(10);
+
+        const b2 = new Business('a', '', 'a', 1, 0, 10, Date.now());
+        expect(b1.getProduction(Date.now()) + b2.getProduction(Date.now())).toBe(10);
+        b1.work();
+        b2.work();
+        expect(b1.getProduction(Date.now()) + b2.getProduction(Date.now())).toBe(30);
+        b1.work();
+        b2.work();
+
+        const b3 = new Business('a', '', 'a', 1, 0, 10, Date.now());
+        expect(b1.getProduction(Date.now()) + b2.getProduction(Date.now()) + b3.getProduction(Date.now())).toBe(50);
+        b1.work();
+        b2.work();
+        b3.work();
+
+        expect(b1.getProduction(Date.now()) + b2.getProduction(Date.now()) + b3.getProduction(Date.now())).toBe(80);
+    });
+
 });
