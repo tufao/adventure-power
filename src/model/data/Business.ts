@@ -25,8 +25,24 @@ export class Business {
         return this._type;
     }
 
+    get icon():string {
+        return this._icon;
+    }
+
+    get name():string {
+        return this._name;
+    }
+
     get cost():number {
         return this._cost;
+    }
+
+    get time():number {
+        return this._time;
+    }
+
+    get capacity():number {
+        return this._capacity;
     }
 
     public getProduction(timestamp:number):number {
