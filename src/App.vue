@@ -22,19 +22,24 @@ import { BusinessType } from './model/data/BusinessType';
 export default class App extends Vue {
   private show: boolean = false;
   private wallet!: Wallet;
+  private catalog!: Catalog;
   private time!: number;
 
   public mounted() {
     this.time = Date.now();
 
-    this.wallet = new Wallet();
     const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
-    const pedal = new Business(pedalType, this.time);
-
     const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
-    const bio = new Business(bioType, this.time);
+
+    // create catalog
+    this.catalog = new Catalog();
+    this.catalog.addBusinessType(pedalType);
+    this.catalog.addBusinessType(bioType);
+
+    const pedal = new Business(pedalType, this.time);
+    // create wallet
+    this.wallet = new Wallet();
     this.wallet.addBusiness(pedal);
-    this.wallet.addBusiness(bio);
 
     this.show = true;
 
