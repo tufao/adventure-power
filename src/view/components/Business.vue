@@ -5,7 +5,7 @@
     <div>{{ item.capacity }}</div>
     <div>{{ item.time / 1000 }}</div>
     <div>{{ production }}</div>
-    <div><button type="button" @click="start">GO!</button></div>
+    <div><button type="button" @click="start" :style="{disabled:!item.ready}">GO!</button></div>
   </div>
 </template>
 
@@ -25,6 +25,10 @@ export default class BusinessItem extends Vue {
   }
 
   start() {
+    if (!this.item.isReady(Date.now())) {
+      return;
+    }
+
     this.item.work(Date.now());
 
     setTimeout(() => {
@@ -56,5 +60,9 @@ button {
   margin: 4px 2px;
   cursor: pointer;
   background: green;
+}
+
+button.disabled {
+  background: grey;
 }
 </style>
