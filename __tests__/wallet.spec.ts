@@ -88,4 +88,54 @@ describe('Testing Wallet operations', () => {
         timestamp += 1000;
         expect(wallet.getProduction(timestamp)).toBe(63);
     });
+
+    it('Wallet balance without business', async () => {
+        expect(wallet.balance(Date.now())).toBe(0);
+    });
+
+    it('Wallet balance with one business and no production', async () => {
+        let timestamp = Date.now();
+        const lemons = new Business('lemons', '', 'Lemons', 4, 0.5, 1, timestamp);
+        wallet.addBusiness(lemons);
+        expect(wallet.balance(Date.now())).toBe(-4);
+    });
+
+    it('Wallet balance with one business and some production', async () => {
+        let timestamp = Date.now();
+        const lemons = new Business('lemons', '', 'Lemons', 4, 0.5, 1, timestamp);
+        wallet.addBusiness(lemons);
+        wallet.workBusinessOf('lemons', timestamp);
+        timestamp += 500;
+        expect(wallet.balance(timestamp)).toBe(-3);
+        wallet.workBusinessOf('lemons', timestamp);
+        timestamp += 500;
+        expect(wallet.balance(timestamp)).toBe(-2);
+        wallet.workBusinessOf('lemons', timestamp + 500);
+        wallet.workBusinessOf('lemons', timestamp + 1000);
+        wallet.workBusinessOf('lemons', timestamp + 1500);
+        wallet.workBusinessOf('lemons', timestamp + 2000);
+        wallet.workBusinessOf('lemons', timestamp + 2500);
+        expect(wallet.balance(timestamp + 3000)).toBe(3);
+    });
+
+    it('Wallet balance with two business and some production', async () => {
+        let timestamp = Date.now();
+        const lemons1 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, timestamp);
+        const lemons2 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, timestamp);
+        wallet.addBusiness(lemons1);
+        wallet.addBusiness(lemons2);
+        expect(wallet.balance(timestamp)).toBe(-8);
+        wallet.workBusinessOf('lemons', timestamp);
+        timestamp += 500;
+        expect(wallet.balance(timestamp)).toBe(-6);
+        wallet.workBusinessOf('lemons', timestamp);
+        timestamp += 500;
+        expect(wallet.balance(timestamp)).toBe(-4);
+        wallet.workBusinessOf('lemons', timestamp + 500);
+        wallet.workBusinessOf('lemons', timestamp + 1000);
+        wallet.workBusinessOf('lemons', timestamp + 1500);
+        wallet.workBusinessOf('lemons', timestamp + 2000);
+        wallet.workBusinessOf('lemons', timestamp + 2500);
+        expect(wallet.balance(timestamp + 3000)).toBe(6);
+    });
 });
