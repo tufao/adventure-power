@@ -21,6 +21,10 @@ export class Business {
         this._productionEnds = created;
     }
 
+    public get type():string {
+        return this._type;
+    }
+
     public getProduction(timestamp:number):number {
         const last = timestamp >= this._productionEnds ? this._capacity : 0;
         return (this._counter - 1) * this._capacity + last;
