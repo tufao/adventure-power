@@ -21,8 +21,12 @@ export class Business {
         this._productionEnds = created;
     }
 
-    public get type():string {
+    get type():string {
         return this._type;
+    }
+
+    get cost():number {
+        return this._cost;
     }
 
     public getProduction(timestamp:number):number {

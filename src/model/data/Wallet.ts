@@ -11,6 +11,10 @@ export class Wallet {
         return this._items.length;
     }
 
+    get cost():number {
+        return this._items.reduce((acc:number, curr:Business) => acc + (curr.cost || 0), 0);
+    }
+
     addBusiness(business:Business) {
         this._items.push(business);
     }

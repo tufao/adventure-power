@@ -36,4 +36,20 @@ describe('Testing Wallet operations', () => {
         expect(wallet.totalBusinessOf('lemons')).toBe(2);
         expect(wallet.totalBusinessOf('newspaper')).toBe(1);
     });
+
+    it('Wallet business cost', () => {
+        const lemons1 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, Date.now());
+        const lemons2 = new Business('lemons', '', 'Lemons', 4, 0.5, 1, Date.now());
+        const news = new Business('newspaper', '', 'Newspaper', 60, 3, 60, Date.now());
+        expect(wallet.cost).toBe(0);
+
+        wallet.addBusiness(lemons1);
+        expect(wallet.cost).toBe(4);
+
+        wallet.addBusiness(lemons2);
+        expect(wallet.cost).toBe(8);
+
+        wallet.addBusiness(news);
+        expect(wallet.cost).toBe(68);
+    });
 });
