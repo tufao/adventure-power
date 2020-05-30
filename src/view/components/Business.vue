@@ -3,7 +3,7 @@
     <div>
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
-      <div>{{ item.time / 1000 }}</div>
+      <div>{{ item.time }}</div>
       <div>{{ production }} kWh</div>
       <div><button type="button" @click="start" :class="{disabled: !item.isReady(time)}">GO!</button></div>
     </div>

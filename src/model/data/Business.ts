@@ -14,7 +14,7 @@ export class Business {
         this._icon = icon;
         this._name = name;
         this._cost = cost;
-        this._time = time * 1000;
+        this._time = time;
         this._capacity = capacity;
 
         this._counter = 0;
@@ -56,14 +56,14 @@ export class Business {
         }
 
         this._counter++;
-        this._productionEnds = timestamp + this._time;
+        this._productionEnds = timestamp + this._time * 1000;
     }
 
     public getProgress(timestamp:number):number {
         if (this._counter === 0) {
             return 0;
         }
-        const perc = 1 - (this._productionEnds - timestamp) / this._time;
+        const perc = 1 - (this._productionEnds - timestamp) / (this._time * 1000);
         return Math.min(Math.max(0, perc), 1);
     }
 
