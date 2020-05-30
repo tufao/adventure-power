@@ -39,4 +39,9 @@ export class Wallet {
     public balance(timestamp:number):number {
         return this.getProduction(timestamp) - this.cost;
     }
+
+    public getBusiness():Array<Business> {
+        return this._items;
+    }
+
 }
