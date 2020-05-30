@@ -9,7 +9,7 @@ export class Business {
     private _counter:number;
     private _productionEnds:number;
 
-    constructor(type:string, icon:string, name:string, cost:number, time:number, capacity:number) {
+    constructor(type:string, icon:string, name:string, cost:number, time:number, capacity:number, created:number) {
         this._type = type;
         this._icon = icon;
         this._name = name;
@@ -18,7 +18,7 @@ export class Business {
         this._capacity = capacity;
 
         this._counter = 0;
-        this._productionEnds = 0;
+        this._productionEnds = created;
     }
 
     public getProduction(timestamp:number):number {
@@ -36,7 +36,7 @@ export class Business {
     }
 
     public getProgress(timestamp:number):number {
-        if (this._productionEnds === 0) {
+        if (this._counter === 0) {
             return 0;
         }
         return 1 - (this._productionEnds - timestamp) / this._time;

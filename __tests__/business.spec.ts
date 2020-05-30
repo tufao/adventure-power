@@ -3,14 +3,14 @@ import { Business } from '../src/model/data/Business';
 describe('Testing Business operations', () => {
 
     it('Test Business single production with instant work', () => {
-        const business = new Business('a', '', 'a', 1, 0, 1);
+        const business = new Business('a', '', 'a', 1, 0, 1, Date.now());
         business.work();
 
         expect(business.getProduction(Date.now())).toBe(1);
     });
 
     it('Test Business double production width instant work', () => {
-        const business = new Business('a', '', 'a', 1, 0, 1);
+        const business = new Business('a', '', 'a', 1, 0, 1, Date.now());
         business.work();
         business.work();
 
@@ -18,7 +18,7 @@ describe('Testing Business operations', () => {
     });
 
     it('Test Business error production while busy', () => {
-        const business = new Business('a', '', 'a', 1, 1, 1);
+        const business = new Business('a', '', 'a', 1, 1, 1, Date.now());
         business.work();
 
         expect(() => {
@@ -27,7 +27,7 @@ describe('Testing Business operations', () => {
     });
 
     it('Test Business doubble production given the time', async () => {
-        const business = new Business('a', '', 'a', 1, 1, 2);
+        const business = new Business('a', '', 'a', 1, 1, 2, Date.now());
         business.work();
 
         // wait a second to work again
@@ -47,7 +47,7 @@ describe('Testing Business operations', () => {
     });
 
     it('Test Business work progress', async () => {
-        const business = new Business('a', '', 'a', 1, 1, 2);
+        const business = new Business('a', '', 'a', 1, 1, 2, Date.now());
         business.work();
 
         // it should be starting
@@ -61,7 +61,7 @@ describe('Testing Business operations', () => {
     });
 
     it('Test Business progress with no work', async () => {
-        const business = new Business('a', '', 'a', 1, 1, 2);
+        const business = new Business('a', '', 'a', 1, 1, 2, Date.now());
 
         // no progress regardless of the time
         expect(business.getProgress(Date.now())).toBeCloseTo(0);
