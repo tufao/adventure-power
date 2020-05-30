@@ -12,6 +12,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import WalletItem from './view/components/Wallet.vue';
 import { Business } from './model/data/Business';
 import { Wallet } from './model/data/Wallet';
+import { BusinessType } from './model/data/BusinessType';
 
 @Component({
   components: {
@@ -27,8 +28,11 @@ export default class App extends Vue {
     this.time = Date.now();
 
     this.wallet = new Wallet();
-    const pedal = new Business('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1, this.time);
-    const bio = new Business('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60, this.time);
+    const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
+    const pedal = new Business(pedalType, this.time);
+
+    const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
+    const bio = new Business(bioType, this.time);
     this.wallet.addBusiness(pedal);
     this.wallet.addBusiness(bio);
 

@@ -1,4 +1,5 @@
 import { Business } from './Business'
+import { BusinessType } from './BusinessType';
 
 export class Wallet {
     private _items:Array<Business>;
@@ -19,7 +20,7 @@ export class Wallet {
         this._items.push(business);
     }
 
-    public totalBusinessOf(type:string) {
+    public totalBusinessOf(type:BusinessType) {
         const businesses = this._items.filter((business:Business) => business.type === type);
         return businesses.length;
     }
@@ -28,7 +29,7 @@ export class Wallet {
         return this._items.reduce((acc:number, curr:Business) => acc + (curr.getProduction(timestamp) || 0), 0);
     }
 
-    public workBusinessOf(type:string, timestamp:number) {
+    public workBusinessOf(type:BusinessType, timestamp:number) {
         this._items.forEach((business:Business) => {
             if (business.type === type) {
                 business.work(timestamp);

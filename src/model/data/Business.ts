@@ -1,53 +1,45 @@
+import { BusinessType } from './BusinessType';
+
 export class Business {
-    private _type:string;
-    private _icon:string;
-    private _name:string;
-    private _cost:number;
-    private _time:number;
-    private _capacity:number;
+    private _type:BusinessType;
 
     private _counter:number;
     private _productionEnds:number;
 
-    constructor(type:string, icon:string, name:string, cost:number, time:number, capacity:number, created:number) {
+    constructor(type:BusinessType, created:number) {
         this._type = type;
-        this._icon = icon;
-        this._name = name;
-        this._cost = cost;
-        this._time = time;
-        this._capacity = capacity;
 
         this._counter = 0;
         this._productionEnds = created;
     }
 
-    get type():string {
+    get type():BusinessType {
         return this._type;
     }
 
     get icon():string {
-        return this._icon;
+        return this._type.icon;
     }
 
     get name():string {
-        return this._name;
+        return this._type.name;
     }
 
     get cost():number {
-        return this._cost;
+        return this._type.cost;
     }
 
     get time():number {
-        return this._time;
+        return this._type.time;
     }
 
     get capacity():number {
-        return this._capacity;
+        return this._type.capacity;
     }
 
     public getProduction(timestamp:number):number {
-        const last = timestamp >= this._productionEnds ? this._capacity : 0;
-        return (this._counter - 1) * this._capacity + last;
+        const last = timestamp >= this._productionEnds ? this.capacity : 0;
+        return (this._counter - 1) * this.capacity + last;
     }
 
     public work(timestamp:number) {
@@ -56,14 +48,14 @@ export class Business {
         }
 
         this._counter++;
-        this._productionEnds = timestamp + this._time * 1000;
+        this._productionEnds = timestamp + this.time * 1000;
     }
 
     public getProgress(timestamp:number):number {
         if (this._counter === 0) {
             return 0;
         }
-        const perc = 1 - (this._productionEnds - timestamp) / (this._time * 1000);
+        const perc = 1 - (this._productionEnds - timestamp) / (this.time * 1000);
         return Math.min(Math.max(0, perc), 1);
     }
 

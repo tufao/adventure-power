@@ -24,7 +24,7 @@ export default class WalletItem extends Vue {
   }
 
   buyBusines(business: Business) {
-    const newBusiness = new Business(business.type, business.icon, business.name, business.cost, business.time, business.capacity, this.time);
+    const newBusiness = new Business(business.type, this.time);
     this.wallet.addBusiness(newBusiness);
   }
 }
