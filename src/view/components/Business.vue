@@ -5,7 +5,7 @@
       <div>{{ item.name }}</div>
       <div>{{ item.time / 1000 }}</div>
       <div>{{ production }} kWh</div>
-      <div><button type="button" @click="start" :style="{disabled:!item.ready}">GO!</button></div>
+      <div><button type="button" @click="start" :class="{disabled: !item.isReady(time)}">GO!</button></div>
     </div>
     <div>
       <div><button type="button">1x Buy {{ item.capacity }} kW</button></div>
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 // eslint-disable-next-line no-unused-vars
 import { Business } from '../../model/data/Business';
 
@@ -37,13 +37,14 @@ export default class BusinessItem extends Vue {
     if (!this.item.isReady(this.time)) {
       return;
     }
-
     this.item.work(this.time);
-
-    setTimeout(() => {
-      this.production = this.item.getProduction(this.time);
-    }, this.item.time);
   }
+
+  @Watch("time", { immediate: true })
+  onTimeUpdate(){
+    this.production = this.item.getProduction(this.time);
+  }
+
 }
 </script>
 

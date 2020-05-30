@@ -33,6 +33,12 @@ export default class App extends Vue {
     this.wallet.addBusiness(bio);
 
     this.show = true;
+
+    // render update
+    setInterval(() => {
+      this.time = Date.now();
+      this.$forceUpdate();
+    }, 100);
   }
 }
 </script>
