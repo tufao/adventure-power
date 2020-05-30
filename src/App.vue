@@ -2,21 +2,22 @@
   <div id="app">
     <h1>Power Adventure</h1>
     <div v-if="show">
-      <WalletItem :wallet="wallet" :time="time" />
+      <CatalogList :catalog="catalog" :time="time" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import WalletItem from './view/components/Wallet.vue';
+import CatalogList from './view/components/Catalog.vue';
 import { Business } from './model/data/Business';
+import { Catalog } from './model/data/Catalog';
 import { Wallet } from './model/data/Wallet';
 import { BusinessType } from './model/data/BusinessType';
 
 @Component({
   components: {
-    WalletItem,
+    CatalogList,
   },
 })
 export default class App extends Vue {
