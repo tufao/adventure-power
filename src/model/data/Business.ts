@@ -66,4 +66,9 @@ export class Business {
         const perc = 1 - (this._productionEnds - timestamp) / this._time;
         return Math.min(Math.max(0, perc), 1);
     }
+
+    public isReady(timestamp:number):boolean {
+        return this._counter === 0 || this.getProgress(timestamp) === 1;
+    }
+
 }
