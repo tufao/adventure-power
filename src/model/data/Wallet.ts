@@ -45,4 +45,13 @@ export class Wallet {
         return this._items;
     }
 
+    public getBusinessOf(type:BusinessType):Array<Business> {
+        const ret = this._items.filter((business:Business) => business.type === type);
+        return ret;
+    }
+
+    public getProductionOf(type:BusinessType, timestamp:number):number {
+        const businesses = this.getBusinessOf(type);
+        return businesses.reduce((acc:number, curr:Business) => acc + (curr.getProduction(timestamp) || 0), 0);
+    }
 }
