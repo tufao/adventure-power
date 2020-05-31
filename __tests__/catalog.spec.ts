@@ -1,5 +1,6 @@
 import { BusinessType } from "../src/model/data/BusinessType";
 import { Catalog } from "../src/model/data/Catalog";
+import { Manager } from "../src/model/data/Manager";
 
 describe('Testing Catalog operations', () => {
     let catalog:Catalog;
@@ -21,5 +22,15 @@ describe('Testing Catalog operations', () => {
         catalog.addBusinessType(typeNews);
 
         expect(catalog.totalTypes).toBe(2);
+    });
+
+    it('Add manager to the catalog', () => {
+        const lemonGuy = new Manager(typeLemons, 'Cabe Johnson', 'Run lemonade stands', 1000);
+        catalog.addManager(lemonGuy);
+        expect(catalog.getManager(typeLemons)).toBe(lemonGuy);
+    });
+
+    it('Fetch unkown manager from catalog', () => {
+        expect(catalog.getManager(typeLemons)).toBeNull();
     });
 });

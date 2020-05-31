@@ -1,13 +1,16 @@
 import { Business } from './Business'
 import { BusinessType } from './BusinessType';
+import { Manager } from './Manager';
 
 export class Wallet {
     private _items:Array<Business>;
+    private _managers:Map<BusinessType, Manager>;
     private _value:number;
 
     constructor() {
         this._items = new Array<Business>();
         this._value = 0;
+        this._managers = new Map<BusinessType, Manager>();
     }
 
     get totalBusiness():number {
@@ -19,6 +22,10 @@ export class Wallet {
     }
 
     public addBusiness(business:Business) {
+        const manager = this.getManager(business.type);
+        if (manager) {
+            business.startAutoWork(manager.hiredDate);
+        }
         this._items.push(business);
     }
 
@@ -33,7 +40,7 @@ export class Wallet {
 
     public workBusinessOf(type:BusinessType, timestamp:number) {
         this._items.forEach((business:Business) => {
-            if (business.type === type) {
+            if (business.type === type && business.isReady(timestamp)) {
                 business.work(timestamp);
             }
         })
@@ -59,5 +66,29 @@ export class Wallet {
 
     public addValue(value:number) {
         this._value += value;
+    }
+
+    public addManager(manager:Manager, timestamp:number) {
+        manager.hire(timestamp);
+
+        this._managers.set(manager.type, manager);
+
+        // put him to work!
+        const businesses = this.getBusinessOf(manager.type);
+        businesses.forEach((business:Business) => {
+            business.startAutoWork(timestamp);
+        })
+    }
+
+    public hasManager(type:BusinessType) {
+        return this._managers.has(type);
+    }
+
+    private getManager(type:BusinessType) {
+        if (this.hasManager(type)) {
+            return this._managers.get(type);
+        }
+
+        return null;
     }
 }

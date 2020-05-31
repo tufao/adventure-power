@@ -13,6 +13,7 @@
     </div>
     <div>
       <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.cost }} kW</button></div>
+      <div><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate ({{ hireCost }} kW)</button></div>
     </div>
   </div>
 </template>
@@ -29,8 +30,10 @@ export default class BusinessItem extends Vue {
   @Prop() private count!: number;
   @Prop() private ready!: boolean;
   @Prop() private buyable!: boolean;
+  @Prop() private hirable!: boolean;
   @Prop() private production!: number;
   @Prop() private progress!: number;
+  @Prop() private hireCost!: number;
 
   get icon() {
     return require(`@static/${this.item.icon}`);

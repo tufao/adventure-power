@@ -6,9 +6,11 @@
       :time="time"
       :ready="isReady(type)"
       :buyable="canBuy(type)"
+      :hirable="canHire(type)"
       :production="getProduction(type)"
       :progress="getProgress(type)"
-      v-on:work="start(type)" v-on:buy="buy(type)" />
+      :hireCost="getHireCost(type)"
+      @work="start(type)" @buy="buy(type)" @hire="hire(type)" />
   </div>
 </template>
 
@@ -52,6 +54,18 @@ export default class CatalogList extends Vue {
     return type.cost <= this.wallet.balance(Date.now());
   }
 
+  canHire(type:BusinessType) {
+    if (this.wallet.hasManager(type)) {
+      return false;
+    }
+
+    const manager = this.catalog.getManager(type);
+    if (manager) {
+      return manager.cost <= this.wallet.balance(Date.now());
+    }
+    return false;
+  }
+
   getProduction(type:BusinessType) {
     const ret = this.wallet.getProductionOf(type, this.time);
     return ret;
@@ -63,6 +77,14 @@ export default class CatalogList extends Vue {
       return business[0].getProgress(this.time);
     }
     return 0;
+  }
+
+  getHireCost(type:BusinessType):number {
+    const manager = this.catalog.getManager(type);
+    if (manager) {
+      return manager.cost;
+    }
+    return -1;
   }
 
   start(type:BusinessType) {
@@ -77,6 +99,18 @@ export default class CatalogList extends Vue {
 
     const business = new Business(type, this.time);
     this.wallet.addBusiness(business);
+  }
+
+  hire(type:BusinessType) {
+    const manager = this.catalog.getManager(type);
+    if (!manager) return;
+
+    if (manager.cost > this.wallet.balance(Date.now())) {
+      // not enough currency to buy
+      return;
+    }
+
+    this.wallet.addManager(manager, Date.now());
   }
 }
 </script>

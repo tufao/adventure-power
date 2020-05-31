@@ -5,12 +5,16 @@ export class Business {
 
     private _counter:number;
     private _productionEnds:number;
+    private _autoStart:number;
+    private _created:number;
 
     constructor(type:BusinessType, created:number) {
         this._type = type;
+        this._created = created;
 
         this._counter = 0;
         this._productionEnds = created;
+        this._autoStart = 0;
     }
 
     get type():BusinessType {
@@ -37,9 +41,14 @@ export class Business {
         return this._type.capacity;
     }
 
+    get created():number {
+        return this._created;
+    }
+
     public getProduction(timestamp:number):number {
+        const auto = this._autoStart ? Math.floor((timestamp - this._autoStart) / (this.time * 1000)) : 0;
         const last = timestamp >= this._productionEnds ? this.capacity : 0;
-        return (this._counter - 1) * this.capacity + last;
+        return (this._counter - 1) * this.capacity + last + auto;
     }
 
     public work(timestamp:number) {
@@ -55,6 +64,11 @@ export class Business {
         if (this._counter === 0) {
             return 0;
         }
+        const milisecs = this.time * 1000;
+        if (this._autoStart) {
+            const rest = Math.floor((timestamp - this._autoStart) % milisecs);
+            return rest / milisecs;
+        }
         const perc = 1 - (this._productionEnds - timestamp) / (this.time * 1000);
         return Math.min(Math.max(0, perc), 1);
     }
@@ -63,4 +77,7 @@ export class Business {
         return this._counter === 0 || this.getProgress(timestamp) === 1;
     }
 
+    public startAutoWork(timestamp:number) {
+        this._autoStart = timestamp;
+    }
 }

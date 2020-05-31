@@ -1,21 +1,35 @@
 import { BusinessType } from './BusinessType';
+import { Manager } from './Manager';
 
 export class Catalog {
-    private _list:Array<BusinessType>;
+    private _types:Array<BusinessType>;
+    private _managers:Map<BusinessType, Manager>;
 
     constructor() {
-        this._list = new Array<BusinessType>();
+        this._types = new Array<BusinessType>();
+        this._managers = new Map<BusinessType, Manager>();
     }
 
     get totalTypes():number {
-        return this._list.length;
+        return this._types.length;
     }
 
     public addBusinessType(type:BusinessType) {
-        this._list.push(type);
+        this._types.push(type);
     }
 
     public getTypes():Array<BusinessType> {
-        return this._list;
+        return this._types;
+    }
+
+    public addManager(manager:Manager) {
+        this._managers.set(manager.type, manager);
+    }
+
+    public getManager(type:BusinessType) {
+        if (this._managers.has(type)) {
+            return this._managers.get(type);
+        }
+        return null;
     }
 }
