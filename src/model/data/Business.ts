@@ -64,6 +64,11 @@ export class Business {
         if (this._counter === 0) {
             return 0;
         }
+        const milisecs = this.time * 1000;
+        if (this._autoStart) {
+            const rest = Math.floor((timestamp - this._autoStart) % milisecs);
+            return rest / milisecs;
+        }
         const perc = 1 - (this._productionEnds - timestamp) / (this.time * 1000);
         return Math.min(Math.max(0, perc), 1);
     }
