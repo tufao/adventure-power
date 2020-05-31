@@ -1,6 +1,8 @@
 <template>
-  <div class="wallet">
-    <BusinessItem v-for="(item, index) in catalog.getTypes()" :key="index" :item="item" :time="time" v-on:buy="buyBusines" />
+  <div class="catalog">
+    <BusinessItem v-for="(type, index) in catalog.getTypes()" :key="index"
+      :item="type" :time="time" :ready="isReady(type)" :production="getProduction(type)"
+      v-on:work="start(type)" v-on:buy="buy(type)" />
   </div>
 </template>
 
@@ -9,6 +11,10 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import BusinessItem from './Business.vue';
 // eslint-disable-next-line no-unused-vars
 import { Catalog } from '../../model/data/Catalog';
+// eslint-disable-next-line no-unused-vars
+import { BusinessType } from '../../model/data/BusinessType';
+// eslint-disable-next-line no-unused-vars
+import { Wallet } from '../../model/data/Wallet';
 
 @Component({
   components: {
@@ -17,12 +23,30 @@ import { Catalog } from '../../model/data/Catalog';
 })
 export default class CatalogList extends Vue {
   @Prop() private catalog!: Catalog;
+  @Prop() private wallet!: Wallet;
   @Prop() private time!: number;
 
   mounted() {
   }
 
-  buyBusines() {
+  isReady(type:BusinessType) {
+    const businesses = this.wallet.getBusinessOf(type);
+    if (businesses.length > 0) {
+      return businesses[0].isReady(this.time);
+    }
+    return true;
+  }
+
+  getProduction(type:BusinessType) {
+    const ret = this.wallet.getProductionOf(type, this.time);
+    return ret;
+  }
+
+  start(type:BusinessType) {
+    this.wallet.workBusinessOf(type, this.time);
+  }
+
+  buy() {
     // const newBusiness = new Business(business.type, this.time);
     // this.wallet.addBusiness(newBusiness);
   }

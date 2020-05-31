@@ -2,7 +2,7 @@
   <div id="app">
     <h1>Power Adventure</h1>
     <div v-if="show">
-      <CatalogList :catalog="catalog" :time="time" />
+      <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
     </div>
   </div>
 </template>
