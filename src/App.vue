@@ -12,10 +12,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import CatalogList from './view/components/Catalog.vue';
 import { Business } from './model/data/Business';
-import { Catalog } from './model/data/Catalog';
-import { Wallet } from './model/data/Wallet';
 import { BusinessType } from './model/data/BusinessType';
+import { Catalog } from './model/data/Catalog';
+// eslint-disable-next-line no-unused-vars
+import { Wallet } from './model/data/Wallet';
 import { Manager } from './model/data/Manager';
+import { LocalStorage } from './model/proxies/LocalStorage';
+import { StorageProxy } from './model/proxies/StorageProxy';
 
 @Component({
   components: {
@@ -69,9 +72,14 @@ export default class App extends Vue {
     this.catalog.addManager(bot6);
     this.catalog.addManager(bot7);
 
+    // Add starting business
     const pedal = new Business(pedalType, this.time);
+
+    // Init storage
+    const storage = new StorageProxy(new LocalStorage());
+
     // create wallet
-    this.wallet = new Wallet();
+    this.wallet = storage.loadWallet();
     this.wallet.addValue(4);
     this.wallet.addBusiness(pedal);
 
