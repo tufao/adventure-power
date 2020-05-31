@@ -1,7 +1,13 @@
 <template>
   <div class="catalog">
     <BusinessItem v-for="(type, index) in catalog.getTypes()" :key="index"
-      :item="type" :time="time" :ready="isReady(type)" :production="getProduction(type)"
+      :count="getCount(type)"
+      :item="type"
+      :time="time"
+      :ready="isReady(type)"
+      :buyable="canBuy(type)"
+      :production="getProduction(type)"
+      :progress="getProgress(type)"
       v-on:work="start(type)" v-on:buy="buy(type)" />
   </div>
 </template>
@@ -30,6 +36,10 @@ export default class CatalogList extends Vue {
   mounted() {
   }
 
+  getCount(type:BusinessType) {
+    return this.wallet.getBusinessOf(type).length;
+  }
+
   isReady(type:BusinessType) {
     const businesses = this.wallet.getBusinessOf(type);
     if (businesses.length > 0) {
@@ -38,9 +48,21 @@ export default class CatalogList extends Vue {
     return false;
   }
 
+  canBuy(type:BusinessType) {
+    return type.cost <= this.wallet.balance(Date.now());
+  }
+
   getProduction(type:BusinessType) {
     const ret = this.wallet.getProductionOf(type, this.time);
     return ret;
+  }
+
+  getProgress(type:BusinessType) {
+    const business = this.wallet.getBusinessOf(type);
+    if (business.length > 0) {
+      return business[0].getProgress(this.time);
+    }
+    return 0;
   }
 
   start(type:BusinessType) {
@@ -48,6 +70,11 @@ export default class CatalogList extends Vue {
   }
 
   buy(type:BusinessType) {
+    if (type.cost > this.wallet.balance(Date.now())) {
+      // not enough currency to buy
+      return;
+    }
+
     const business = new Business(type, this.time);
     this.wallet.addBusiness(business);
   }

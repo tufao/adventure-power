@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <h1>Power Adventure</h1>
-    <div v-if="show">
+    <h2>{{ wallet.balance(time) }} kWh</h2>
+    <div>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
     </div>
   </div>
@@ -21,28 +22,36 @@ import { BusinessType } from './model/data/BusinessType';
   },
 })
 export default class App extends Vue {
-  private show: boolean = false;
   private wallet!: Wallet;
   private catalog!: Catalog;
   private time!: number;
 
-  public mounted() {
+  public beforeMount() {
     this.time = Date.now();
 
     const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
     const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
+    const wavesType = new BusinessType('waves', 'waves.png', 'Waves Energy', 720, 6, 540);
+    const hydroType = new BusinessType('hydro', 'hydro.png', 'Hydro Energy', 8640, 12, 4320);
+    const thermalType = new BusinessType('geothermal', 'geothermal.png', 'Geothermal Energy', 103680, 24, 51840);
+    const windType = new BusinessType('wind', 'turbine.png', 'Wind Energy', 1244160, 96, 622080);
+    const solarType = new BusinessType('solar', 'solar.png', 'Solar Energy', 14929920, 288, 7464960);
 
     // create catalog
     this.catalog = new Catalog();
     this.catalog.addBusinessType(pedalType);
     this.catalog.addBusinessType(bioType);
+    this.catalog.addBusinessType(wavesType);
+    this.catalog.addBusinessType(hydroType);
+    this.catalog.addBusinessType(thermalType);
+    this.catalog.addBusinessType(windType);
+    this.catalog.addBusinessType(solarType);
 
     const pedal = new Business(pedalType, this.time);
     // create wallet
     this.wallet = new Wallet();
+    this.wallet.addValue(4);
     this.wallet.addBusiness(pedal);
-
-    this.show = true;
 
     // render update
     setInterval(() => {
