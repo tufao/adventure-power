@@ -17,6 +17,12 @@ export class Business {
         this._autoStart = 0;
     }
 
+    public static parse(obj:any):Business {
+        const type = BusinessType.parse(obj._type);
+        const business = new Business(type, obj._created);
+        return business;
+    }
+
     get type():BusinessType {
         return this._type;
     }

@@ -13,6 +13,17 @@ export class Wallet {
         this._managers = new Map<BusinessType, Manager>();
     }
 
+    public static parse(obj:any):Wallet {
+        const wallet = new Wallet();
+        // Parse businesses
+        for (const item of obj._items) {
+            const business = Business.parse(item);
+            wallet.addBusiness(business);
+        }
+
+        return wallet;
+    }
+
     get totalBusiness():number {
         return this._items.length;
     }

@@ -7,9 +7,10 @@ import { LocalStorageMock } from "./mocks/LocalStorageMock";
 describe('Testing Storage operations', () => {
     const typeLemons = new BusinessType('lemons', '', 'Lemons', 4, 0.5, 1);
     const typeNews = new BusinessType('newspaper', '', 'Newspaper', 60, 3, 60);
-    const wallet:Wallet = new Wallet();
+    let wallet:Wallet;
 
-    beforeAll(() => {
+    beforeEach(() => {
+        wallet = new Wallet();
         const lemons1 = new Business(typeLemons, Date.now());
         const lemons2 = new Business(typeLemons, Date.now());
         const news = new Business(typeNews, Date.now());
@@ -18,12 +19,21 @@ describe('Testing Storage operations', () => {
         wallet.addBusiness(news);
     })
 
-    it('Loaded wallet is equal to the saved wallet', () => {
+    it('Loaded wallet is equal to the saved simple wallet', () => {
         const storage = new StorageProxy(new LocalStorageMock());
         storage.saveWallet(wallet);
 
         const loaded = storage.loadWallet();
         expect(loaded).toMatchObject(wallet);
+        expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
+    });
+
+    it('Loaded wallet has the same balance as before', () => {
+        const storage = new StorageProxy(new LocalStorageMock());
+        storage.saveWallet(wallet);
+
+        const loaded = storage.loadWallet();
+        expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
     });
 
 });

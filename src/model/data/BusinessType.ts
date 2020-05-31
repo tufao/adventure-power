@@ -15,6 +15,11 @@ export class BusinessType {
         this._capacity = capacity;
     }
 
+    public static parse(obj:any):BusinessType {
+        const type = new BusinessType(obj._type, obj._icon, obj._name, obj._cost, obj._time, obj._capacity);
+        return type;
+    }
+
     get type():string {
         return this._type;
     }
