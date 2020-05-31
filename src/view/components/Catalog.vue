@@ -6,6 +6,7 @@
       :time="time"
       :ready="isReady(type)"
       :buyable="canBuy(type)"
+      :hirable="canHire(type)"
       :production="getProduction(type)"
       :progress="getProgress(type)"
       v-on:work="start(type)" v-on:buy="buy(type)" />
@@ -50,6 +51,18 @@ export default class CatalogList extends Vue {
 
   canBuy(type:BusinessType) {
     return type.cost <= this.wallet.balance(Date.now());
+  }
+
+  canHire(type:BusinessType) {
+    if (this.wallet.hasManager(type)) {
+      return false;
+    }
+
+    const manager = this.catalog.getManager(type);
+    if (manager) {
+      return manager.cost <= this.wallet.balance(Date.now());
+    }
+    return false;
   }
 
   getProduction(type:BusinessType) {

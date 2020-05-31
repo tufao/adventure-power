@@ -75,4 +75,8 @@ export class Wallet {
             business.startAutoWork(timestamp);
         })
     }
+
+    public hasManager(type:BusinessType) {
+        return this._managers.has(type);
+    }
 }
