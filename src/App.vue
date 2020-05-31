@@ -88,6 +88,11 @@ export default class App extends Vue {
       this.time = Date.now();
       this.$forceUpdate();
     }, 100);
+
+    // auto save loop
+    setInterval(() => {
+      storage.saveWallet(this.wallet);
+    }, 1000);
   }
 }
 </script>
