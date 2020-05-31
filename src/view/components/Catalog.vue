@@ -15,6 +15,7 @@ import { Catalog } from '../../model/data/Catalog';
 import { BusinessType } from '../../model/data/BusinessType';
 // eslint-disable-next-line no-unused-vars
 import { Wallet } from '../../model/data/Wallet';
+import { Business } from '../../model/data/Business';
 
 @Component({
   components: {
@@ -46,9 +47,9 @@ export default class CatalogList extends Vue {
     this.wallet.workBusinessOf(type, this.time);
   }
 
-  buy() {
-    // const newBusiness = new Business(business.type, this.time);
-    // this.wallet.addBusiness(newBusiness);
+  buy(type:BusinessType) {
+    const business = new Business(type, this.time);
+    this.wallet.addBusiness(business);
   }
 }
 </script>
