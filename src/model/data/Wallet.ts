@@ -68,5 +68,11 @@ export class Wallet {
         manager.hire(timestamp);
 
         this._managers.set(manager.type, manager);
+
+        // put him to work!
+        const businesses = this.getBusinessOf(manager.type);
+        businesses.forEach((business:Business) => {
+            business.startAutoWork(timestamp);
+        })
     }
 }
