@@ -20,6 +20,9 @@ export class Business {
     public static parse(obj:any):Business {
         const type = BusinessType.parse(obj._type);
         const business = new Business(type, obj._created);
+        business.counter = obj._counter;
+        business.productionEnds = obj._productionEnds;
+        business.autoStart = obj._autoStart;
         return business;
     }
 
