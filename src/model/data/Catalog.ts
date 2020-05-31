@@ -1,21 +1,21 @@
 import { BusinessType } from './BusinessType';
 
 export class Catalog {
-    private _list:Array<BusinessType>;
+    private _types:Array<BusinessType>;
 
     constructor() {
-        this._list = new Array<BusinessType>();
+        this._types = new Array<BusinessType>();
     }
 
     get totalTypes():number {
-        return this._list.length;
+        return this._types.length;
     }
 
     public addBusinessType(type:BusinessType) {
-        this._list.push(type);
+        this._types.push(type);
     }
 
     public getTypes():Array<BusinessType> {
-        return this._list;
+        return this._types;
     }
 }
