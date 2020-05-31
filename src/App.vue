@@ -15,6 +15,7 @@ import { Business } from './model/data/Business';
 import { Catalog } from './model/data/Catalog';
 import { Wallet } from './model/data/Wallet';
 import { BusinessType } from './model/data/BusinessType';
+import { Manager } from './model/data/Manager';
 
 @Component({
   components: {
@@ -29,6 +30,7 @@ export default class App extends Vue {
   public beforeMount() {
     this.time = Date.now();
 
+    // business types
     const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
     const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
     const wavesType = new BusinessType('waves', 'waves.png', 'Waves Energy', 720, 6, 540);
@@ -37,8 +39,19 @@ export default class App extends Vue {
     const windType = new BusinessType('wind', 'turbine.png', 'Wind Energy', 1244160, 96, 622080);
     const solarType = new BusinessType('solar', 'solar.png', 'Solar Energy', 14929920, 288, 7464960);
 
+    // managers (bots)
+    const bot1 = new Manager(pedalType, 'bot1', '', 1);
+    const bot2 = new Manager(bioType, 'bot2', '', 15000);
+    const bot3 = new Manager(wavesType, 'bot3', '', 100000);
+    const bot4 = new Manager(hydroType, 'bot4', '', 500000);
+    const bot5 = new Manager(thermalType, 'bot5', '', 1200000);
+    const bot6 = new Manager(windType, 'bot6', '', 10000000);
+    const bot7 = new Manager(solarType, 'bot7', '', 111111111);
+
     // create catalog
     this.catalog = new Catalog();
+
+    // add businesses to catalog
     this.catalog.addBusinessType(pedalType);
     this.catalog.addBusinessType(bioType);
     this.catalog.addBusinessType(wavesType);
@@ -46,6 +59,15 @@ export default class App extends Vue {
     this.catalog.addBusinessType(thermalType);
     this.catalog.addBusinessType(windType);
     this.catalog.addBusinessType(solarType);
+
+    // add managers to catalog
+    this.catalog.addManager(bot1);
+    this.catalog.addManager(bot2);
+    this.catalog.addManager(bot3);
+    this.catalog.addManager(bot4);
+    this.catalog.addManager(bot5);
+    this.catalog.addManager(bot6);
+    this.catalog.addManager(bot7);
 
     const pedal = new Business(pedalType, this.time);
     // create wallet
