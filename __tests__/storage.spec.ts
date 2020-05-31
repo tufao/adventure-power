@@ -3,6 +3,7 @@ import { BusinessType } from "../src/model/data/BusinessType";
 import { Wallet } from "../src/model/data/Wallet";
 import { StorageProxy } from "../src/model/proxies/StorageProxy";
 import { LocalStorageMock } from "./mocks/LocalStorageMock";
+import { Manager } from "../src/model/data/Manager";
 
 describe('Testing Storage operations', () => {
     const typeLemons = new BusinessType('lemons', '', 'Lemons', 4, 0.5, 1);
@@ -50,4 +51,17 @@ describe('Testing Storage operations', () => {
         expect(loaded.balance(time)).toBe(wallet.balance(time));
     });
 
+    it('Loaded wallet has the same balance as before with managers', () => {
+        let time = Date.now();
+        const lemonsManager = new Manager(typeLemons, 'name', 'description', 0);
+        wallet.workBusinessOf(typeLemons, time);
+        wallet.addManager(lemonsManager, time + 1000);
+
+        const storage = new StorageProxy(new LocalStorageMock());
+        storage.saveWallet(wallet);
+
+        const loaded = storage.loadWallet();
+        time += 5000;
+        expect(loaded.balance(time)).toBe(wallet.balance(time));
+    });
 });
