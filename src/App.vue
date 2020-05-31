@@ -31,11 +31,21 @@ export default class App extends Vue {
 
     const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
     const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
+    const wavesType = new BusinessType('waves', 'waves.png', 'Waves Energy', 720, 6, 540);
+    const hydroType = new BusinessType('hydro', 'hydro.png', 'Hydro Energy', 8640, 12, 4320);
+    const thermalType = new BusinessType('geothermal', 'geothermal.png', 'Geothermal Energy', 103680, 24, 51840);
+    const windType = new BusinessType('wind', 'turbine.png', 'Wind Energy', 1244160, 96, 622080);
+    const solarType = new BusinessType('solar', 'solar.png', 'Solar Energy', 14929920, 288, 7464960);
 
     // create catalog
     this.catalog = new Catalog();
     this.catalog.addBusinessType(pedalType);
     this.catalog.addBusinessType(bioType);
+    this.catalog.addBusinessType(wavesType);
+    this.catalog.addBusinessType(hydroType);
+    this.catalog.addBusinessType(thermalType);
+    this.catalog.addBusinessType(windType);
+    this.catalog.addBusinessType(solarType);
 
     const pedal = new Business(pedalType, this.time);
     // create wallet
