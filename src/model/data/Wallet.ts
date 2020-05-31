@@ -1,13 +1,16 @@
 import { Business } from './Business'
 import { BusinessType } from './BusinessType';
+import { Manager } from './Manager';
 
 export class Wallet {
     private _items:Array<Business>;
+    private _managers:Map<BusinessType, Manager>;
     private _value:number;
 
     constructor() {
         this._items = new Array<Business>();
         this._value = 0;
+        this._managers = new Map<BusinessType, Manager>();
     }
 
     get totalBusiness():number {
@@ -59,5 +62,11 @@ export class Wallet {
 
     public addValue(value:number) {
         this._value += value;
+    }
+
+    public addManager(manager:Manager, timestamp:number) {
+        manager.hire(timestamp);
+
+        this._managers.set(manager.type, manager);
     }
 }
