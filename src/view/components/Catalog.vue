@@ -10,7 +10,7 @@
       :production="getProduction(type)"
       :progress="getProgress(type)"
       :hireCost="getHireCost(type)"
-      v-on:work="start(type)" v-on:buy="buy(type)" />
+      @work="start(type)" @buy="buy(type)" @hire="hire(type)" />
   </div>
 </template>
 
@@ -99,6 +99,18 @@ export default class CatalogList extends Vue {
 
     const business = new Business(type, this.time);
     this.wallet.addBusiness(business);
+  }
+
+  hire(type:BusinessType) {
+    const manager = this.catalog.getManager(type);
+    if (!manager) return;
+
+    if (manager.cost > this.wallet.balance(Date.now())) {
+      // not enough currency to buy
+      return;
+    }
+
+    this.wallet.addManager(manager, Date.now());
   }
 }
 </script>
