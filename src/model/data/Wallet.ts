@@ -4,13 +4,13 @@ import { Manager } from './Manager';
 
 export class Wallet {
     private _items:Array<Business>;
-    private _managers:Map<BusinessType, Manager>;
+    private _managers:Array<Manager>;
     private _value:number;
 
     constructor() {
         this._items = new Array<Business>();
         this._value = 0;
-        this._managers = new Map<BusinessType, Manager>();
+        this._managers = new Array<Manager>();
     }
 
     public static parse(obj:any):Wallet {
@@ -85,7 +85,7 @@ export class Wallet {
     public addManager(manager:Manager, timestamp:number) {
         manager.hire(timestamp);
 
-        this._managers.set(manager.type, manager);
+        this._managers.push(manager);
 
         // put him to work!
         const businesses = this.getBusinessOf(manager.type);
@@ -95,12 +95,18 @@ export class Wallet {
     }
 
     public hasManager(type:BusinessType) {
-        return this._managers.has(type);
+        const find = this._managers.filter((manager:Manager) => {
+            return manager.type.id === type.id;
+        });
+        return find.length > 0;
     }
 
     private getManager(type:BusinessType) {
-        if (this.hasManager(type)) {
-            return this._managers.get(type);
+        const find = this._managers.filter((manager:Manager) => {
+            return manager.type.id === type.id;
+        });
+        if (find.length > 0) {
+            return find[0];
         }
 
         return null;
