@@ -31,6 +31,10 @@ export class Manager {
         return this._cost;
     }
 
+    get hiredDate():number {
+        return this._hired;
+    }
+
     public hire(timestamp:number) {
         this._hired = timestamp;
     }

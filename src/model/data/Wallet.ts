@@ -24,7 +24,7 @@ export class Wallet {
     public addBusiness(business:Business) {
         const manager = this.getManager(business.type);
         if (manager) {
-            business.startAutoWork(business.created);
+            business.startAutoWork(manager.hiredDate);
         }
         this._items.push(business);
     }
