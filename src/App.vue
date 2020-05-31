@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <h1>Power Adventure</h1>
-    <div v-if="show">
+    <h2>{{ wallet.balance(time) }} kWh</h2>
+    <div>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
     </div>
   </div>
@@ -21,12 +22,11 @@ import { BusinessType } from './model/data/BusinessType';
   },
 })
 export default class App extends Vue {
-  private show: boolean = false;
   private wallet!: Wallet;
   private catalog!: Catalog;
   private time!: number;
 
-  public mounted() {
+  public beforeMount() {
     this.time = Date.now();
 
     const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
@@ -41,8 +41,6 @@ export default class App extends Vue {
     // create wallet
     this.wallet = new Wallet();
     this.wallet.addBusiness(pedal);
-
-    this.show = true;
 
     // render update
     setInterval(() => {
