@@ -8,7 +8,7 @@
       <div><button type="button" @click="$emit('work', item)" :class="{disabled: !ready}">GO!</button></div>
     </div>
     <div>
-      <div><button type="button" @click="$emit('buy', item)">1x Buy {{ item.capacity }} kW</button></div>
+      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.capacity }} kW</button></div>
     </div>
   </div>
 </template>
@@ -23,6 +23,7 @@ export default class BusinessItem extends Vue {
   @Prop() private item!: Business;
   @Prop() private time!: number;
   @Prop() private ready!: boolean;
+  @Prop() private buyable!: boolean;
   @Prop() private production!: number;
 
   get icon() {
