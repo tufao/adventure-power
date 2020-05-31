@@ -1,7 +1,7 @@
 <template>
   <div class="catalog">
     <BusinessItem v-for="(type, index) in catalog.getTypes()" :key="index"
-      :item="type" :time="time" :ready="isReady(type)" :buyable="canBuy(type)" :production="getProduction(type)"
+      :count="getCount(type)" :item="type" :time="time" :ready="isReady(type)" :buyable="canBuy(type)" :production="getProduction(type)"
       v-on:work="start(type)" v-on:buy="buy(type)" />
   </div>
 </template>
@@ -28,6 +28,10 @@ export default class CatalogList extends Vue {
   @Prop() private time!: number;
 
   mounted() {
+  }
+
+  getCount(type:BusinessType) {
+    return this.wallet.getBusinessOf(type).length;
   }
 
   isReady(type:BusinessType) {

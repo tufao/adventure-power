@@ -1,14 +1,15 @@
 <template>
   <div class="business">
     <div>
+      <div>{{ count }}x</div>
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
       <div>{{ item.time }}</div>
-      <div>{{ production }} kWh</div>
+      <div>{{ item.capacity * count }} kWh</div>
       <div><button type="button" @click="$emit('work', item)" :class="{disabled: !ready}">GO!</button></div>
     </div>
     <div>
-      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.capacity }} kW</button></div>
+      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.cost }} kW</button></div>
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ import { Business } from '../../model/data/Business';
 export default class BusinessItem extends Vue {
   @Prop() private item!: Business;
   @Prop() private time!: number;
+  @Prop() private count!: number;
   @Prop() private ready!: boolean;
   @Prop() private buyable!: boolean;
   @Prop() private production!: number;
