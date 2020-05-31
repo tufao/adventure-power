@@ -51,6 +51,18 @@ export class Business {
         return this._created;
     }
 
+    set counter(value:number) {
+        this._counter = value;
+    }
+
+    set productionEnds(value:number) {
+        this._productionEnds = value;
+    }
+
+    set autoStart(value:number) {
+        this._autoStart = value;
+    }
+
     public getProduction(timestamp:number):number {
         const auto = this._autoStart ? Math.floor((timestamp - this._autoStart) / (this.time * 1000)) : 0;
         const last = timestamp >= this._productionEnds ? this.capacity : 0;

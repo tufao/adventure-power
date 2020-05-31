@@ -36,4 +36,18 @@ describe('Testing Storage operations', () => {
         expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
     });
 
+    it('Loaded wallet has the same balance as before with work', () => {
+        let time = Date.now();
+        wallet.workBusinessOf(typeLemons, time);
+        wallet.workBusinessOf(typeLemons, time + 1000);
+        wallet.workBusinessOf(typeNews, time + 1000);
+
+        const storage = new StorageProxy(new LocalStorageMock());
+        storage.saveWallet(wallet);
+
+        const loaded = storage.loadWallet();
+        time += 5000;
+        expect(loaded.balance(time)).toBe(wallet.balance(time));
+    });
+
 });

@@ -18,6 +18,9 @@ export class Wallet {
         // Parse businesses
         for (const item of obj._items) {
             const business = Business.parse(item);
+            business.counter = item._counter;
+            business.productionEnds = item._productionEnds;
+            business.autoStart = item._autoStart;
             wallet.addBusiness(business);
         }
 
