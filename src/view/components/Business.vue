@@ -8,6 +8,9 @@
       <div>{{ item.capacity * count }} kWh</div>
       <div><button type="button" @click="$emit('work', item)" :class="{disabled: !ready}">GO!</button></div>
     </div>
+    <div class="meter">
+      <span :style="{width: progress * 100 + '%'}"></span>
+    </div>
     <div>
       <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.cost }} kW</button></div>
     </div>
@@ -27,6 +30,7 @@ export default class BusinessItem extends Vue {
   @Prop() private ready!: boolean;
   @Prop() private buyable!: boolean;
   @Prop() private production!: number;
+  @Prop() private progress!: number;
 
   get icon() {
     return require(`@static/${this.item.icon}`);
@@ -66,5 +70,36 @@ button {
 
 button.disabled {
   background: grey;
+}
+
+.meter {
+	height: 20px;  /* Can be anything */
+	position: relative;
+	background: #555;
+	-moz-border-radius: 25px;
+	-webkit-border-radius: 25px;
+	border-radius: 25px;
+	padding: 4px;
+	box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+}
+
+.meter > span {
+  display: block;
+  height: 100%;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  background-color: rgb(43,194,83);
+  background-image: linear-gradient(
+    center bottom,
+    rgb(43,194,83) 37%,
+    rgb(84,240,84) 69%
+  );
+  box-shadow:
+    inset 0 2px 9px  rgba(255,255,255,0.3),
+    inset 0 -2px 6px rgba(0,0,0,0.4);
+  position: relative;
+  overflow: hidden;
 }
 </style>

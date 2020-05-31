@@ -1,7 +1,13 @@
 <template>
   <div class="catalog">
     <BusinessItem v-for="(type, index) in catalog.getTypes()" :key="index"
-      :count="getCount(type)" :item="type" :time="time" :ready="isReady(type)" :buyable="canBuy(type)" :production="getProduction(type)"
+      :count="getCount(type)"
+      :item="type"
+      :time="time"
+      :ready="isReady(type)"
+      :buyable="canBuy(type)"
+      :production="getProduction(type)"
+      :progress="getProgress(type)"
       v-on:work="start(type)" v-on:buy="buy(type)" />
   </div>
 </template>
@@ -49,6 +55,14 @@ export default class CatalogList extends Vue {
   getProduction(type:BusinessType) {
     const ret = this.wallet.getProductionOf(type, this.time);
     return ret;
+  }
+
+  getProgress(type:BusinessType) {
+    const business = this.wallet.getBusinessOf(type);
+    if (business.length > 0) {
+      return business[0].getProgress(this.time);
+    }
+    return 0;
   }
 
   start(type:BusinessType) {
