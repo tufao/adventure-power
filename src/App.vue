@@ -40,7 +40,7 @@ export default class App extends Vue {
     const solarType = new BusinessType('solar', 'solar.png', 'Solar Energy', 14929920, 288, 7464960);
 
     // managers (bots)
-    const bot1 = new Manager(pedalType, 'bot1', '', 1);
+    const bot1 = new Manager(pedalType, 'bot1', '', 1000);
     const bot2 = new Manager(bioType, 'bot2', '', 15000);
     const bot3 = new Manager(wavesType, 'bot3', '', 100000);
     const bot4 = new Manager(hydroType, 'bot4', '', 500000);
