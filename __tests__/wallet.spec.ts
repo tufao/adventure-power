@@ -141,4 +141,32 @@ describe('Testing Wallet operations', () => {
         wallet.workBusinessOf(typeLemons, timestamp + 2500);
         expect(wallet.balance(timestamp + 3000)).toBe(6);
     });
+
+    it('Get business of specific business type', () => {
+        const lemons1 = new Business(typeLemons, Date.now());
+        const lemons2 = new Business(typeLemons, Date.now());
+        const news = new Business(typeNews, Date.now());
+        wallet.addBusiness(lemons1);
+        wallet.addBusiness(lemons2);
+        wallet.addBusiness(news);
+
+        expect(wallet.getBusinessOf(typeLemons).length).toBe(2);
+        expect(wallet.getBusinessOf(typeNews).length).toBe(1);
+    });
+
+    it('Get production for a specific business type', () => {
+        const lemons1 = new Business(typeLemons, Date.now());
+        const lemons2 = new Business(typeLemons, Date.now());
+        const news = new Business(typeNews, Date.now());
+        wallet.addBusiness(lemons1);
+        wallet.addBusiness(lemons2);
+        wallet.addBusiness(news);
+
+        // start producing
+        wallet.workBusinessOf(typeLemons, Date.now());
+        wallet.workBusinessOf(typeNews, Date.now());
+
+        expect(wallet.getProductionOf(typeLemons, Date.now() + 1000)).toBe(2);
+        expect(wallet.getProductionOf(typeNews, Date.now() + 60000)).toBe(60);
+    });
 });
