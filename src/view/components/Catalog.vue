@@ -34,7 +34,7 @@ export default class CatalogList extends Vue {
     if (businesses.length > 0) {
       return businesses[0].isReady(this.time);
     }
-    return true;
+    return false;
   }
 
   getProduction(type:BusinessType) {
