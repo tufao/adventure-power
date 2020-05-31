@@ -15,6 +15,9 @@ export class StorageProxy {
 
     loadWallet():Wallet {
         const data = this._storage.getItem('wallet');
+        if (!data) {
+            return new Wallet();
+        }
         const wallet = Wallet.parse(JSON.parse(data));
 
         return wallet;

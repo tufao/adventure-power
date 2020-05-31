@@ -64,4 +64,11 @@ describe('Testing Storage operations', () => {
         time += 5000;
         expect(loaded.balance(time)).toBe(wallet.balance(time));
     });
+
+    it('Loaded wallet that was not saved', () => {
+        const storage = new StorageProxy(new LocalStorageMock());
+        const loaded = storage.loadWallet();
+        expect(loaded.balance(Date.now())).toBe(0);
+    });
+
 });
