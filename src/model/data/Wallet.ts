@@ -15,6 +15,7 @@ export class Wallet {
 
     public static parse(obj:any):Wallet {
         const wallet = new Wallet();
+
         // Parse businesses
         for (const item of obj._items) {
             const business = Business.parse(item);
@@ -22,6 +23,12 @@ export class Wallet {
             business.productionEnds = item._productionEnds;
             business.autoStart = item._autoStart;
             wallet.addBusiness(business);
+        }
+
+        // Parse managers
+        for (const item of obj._managers) {
+            const manager = Manager.parse(item);
+            wallet.addManager(manager, item._hired)
         }
 
         return wallet;

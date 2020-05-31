@@ -15,6 +15,12 @@ export class Manager {
         this._hired = 0;
     }
 
+    public static parse(obj:any):Manager {
+        const type = BusinessType.parse(obj._type);
+        const manager = new Manager(type, obj._name, obj._description, obj._cost);
+        return manager;
+    }
+
     get type():BusinessType {
         return this._type;
     }

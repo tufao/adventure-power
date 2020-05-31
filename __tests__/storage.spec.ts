@@ -63,6 +63,9 @@ describe('Testing Storage operations', () => {
         const loaded = storage.loadWallet();
         time += 5000;
         expect(loaded.balance(time)).toBe(wallet.balance(time));
+
+        expect(wallet.hasManager(typeLemons)).toBeTruthy();
+        expect(loaded.hasManager(typeLemons)).toBeTruthy();
     });
 
     it('Loaded wallet that was not saved', () => {
