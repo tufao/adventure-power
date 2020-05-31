@@ -40,6 +40,7 @@ export default class App extends Vue {
     const pedal = new Business(pedalType, this.time);
     // create wallet
     this.wallet = new Wallet();
+    this.wallet.addValue(4);
     this.wallet.addBusiness(pedal);
 
     // render update
