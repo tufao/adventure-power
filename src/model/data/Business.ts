@@ -6,9 +6,11 @@ export class Business {
     private _counter:number;
     private _productionEnds:number;
     private _autoStart:number;
+    private _created:number;
 
     constructor(type:BusinessType, created:number) {
         this._type = type;
+        this._created = created;
 
         this._counter = 0;
         this._productionEnds = created;
@@ -37,6 +39,10 @@ export class Business {
 
     get capacity():number {
         return this._type.capacity;
+    }
+
+    get created():number {
+        return this._created;
     }
 
     public getProduction(timestamp:number):number {

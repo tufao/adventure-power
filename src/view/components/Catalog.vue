@@ -9,6 +9,7 @@
       :hirable="canHire(type)"
       :production="getProduction(type)"
       :progress="getProgress(type)"
+      :hireCost="getHireCost(type)"
       v-on:work="start(type)" v-on:buy="buy(type)" />
   </div>
 </template>
@@ -76,6 +77,14 @@ export default class CatalogList extends Vue {
       return business[0].getProgress(this.time);
     }
     return 0;
+  }
+
+  getHireCost(type:BusinessType):number {
+    const manager = this.catalog.getManager(type);
+    if (manager) {
+      return manager.cost;
+    }
+    return -1;
   }
 
   start(type:BusinessType) {

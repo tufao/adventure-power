@@ -13,7 +13,7 @@
     </div>
     <div>
       <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.cost }} kW</button></div>
-      <div><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate {{ hireCost }} kW</button></div>
+      <div><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate ({{ hireCost }} kW)</button></div>
     </div>
   </div>
 </template>

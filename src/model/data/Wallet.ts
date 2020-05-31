@@ -22,6 +22,10 @@ export class Wallet {
     }
 
     public addBusiness(business:Business) {
+        const manager = this.getManager(business.type);
+        if (manager) {
+            business.startAutoWork(business.created);
+        }
         this._items.push(business);
     }
 
@@ -78,5 +82,13 @@ export class Wallet {
 
     public hasManager(type:BusinessType) {
         return this._managers.has(type);
+    }
+
+    private getManager(type:BusinessType) {
+        if (this.hasManager(type)) {
+            return this._managers.get(type);
+        }
+
+        return null;
     }
 }
