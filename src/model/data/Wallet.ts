@@ -40,7 +40,7 @@ export class Wallet {
 
     public workBusinessOf(type:BusinessType, timestamp:number) {
         this._items.forEach((business:Business) => {
-            if (business.type === type) {
+            if (business.type === type && business.isReady(timestamp)) {
                 business.work(timestamp);
             }
         })
