@@ -3,9 +3,11 @@ import { BusinessType } from './BusinessType';
 
 export class Wallet {
     private _items:Array<Business>;
+    private _value:number;
 
     constructor() {
         this._items = new Array<Business>();
+        this._value = 0;
     }
 
     get totalBusiness():number {
@@ -38,7 +40,7 @@ export class Wallet {
     }
 
     public balance(timestamp:number):number {
-        return this.getProduction(timestamp) - this.cost;
+        return this._value + this.getProduction(timestamp) - this.cost;
     }
 
     public getBusiness():Array<Business> {
@@ -53,5 +55,9 @@ export class Wallet {
     public getProductionOf(type:BusinessType, timestamp:number):number {
         const businesses = this.getBusinessOf(type);
         return businesses.reduce((acc:number, curr:Business) => acc + (curr.getProduction(timestamp) || 0), 0);
+    }
+
+    public addValue(value:number) {
+        this._value += value;
     }
 }

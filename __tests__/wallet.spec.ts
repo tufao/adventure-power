@@ -169,4 +169,16 @@ describe('Testing Wallet operations', () => {
         expect(wallet.getProductionOf(typeLemons, Date.now() + 1000)).toBe(2);
         expect(wallet.getProductionOf(typeNews, Date.now() + 60000)).toBe(60);
     });
+
+    it('Change Wallet value', async () => {
+        let timestamp = Date.now();
+        const lemons1 = new Business(typeLemons, timestamp);
+        const lemons2 = new Business(typeLemons, timestamp);
+        wallet.addBusiness(lemons1);
+        wallet.addBusiness(lemons2);
+        expect(wallet.balance(timestamp)).toBe(-8);
+
+        wallet.addValue(8);
+        expect(wallet.balance(timestamp)).toBe(0);
+    });
 });
