@@ -17,6 +17,15 @@ export class Business {
         this._autoStart = 0;
     }
 
+    public static parse(obj:any):Business {
+        const type = BusinessType.parse(obj._type);
+        const business = new Business(type, obj._created);
+        business.counter = obj._counter;
+        business.productionEnds = obj._productionEnds;
+        business.autoStart = obj._autoStart;
+        return business;
+    }
+
     get type():BusinessType {
         return this._type;
     }
@@ -45,6 +54,18 @@ export class Business {
         return this._created;
     }
 
+    set counter(value:number) {
+        this._counter = value;
+    }
+
+    set productionEnds(value:number) {
+        this._productionEnds = value;
+    }
+
+    set autoStart(value:number) {
+        this._autoStart = value;
+    }
+
     public getProduction(timestamp:number):number {
         const auto = this._autoStart ? Math.floor((timestamp - this._autoStart) / (this.time * 1000)) : 0;
         const last = timestamp >= this._productionEnds ? this.capacity : 0;
@@ -65,11 +86,11 @@ export class Business {
             return 0;
         }
         const milisecs = this.time * 1000;
-        if (this._autoStart) {
+        const perc = 1 - (this._productionEnds - timestamp) / milisecs;
+        if (perc >= 1 && this._autoStart) {
             const rest = Math.floor((timestamp - this._autoStart) % milisecs);
             return rest / milisecs;
         }
-        const perc = 1 - (this._productionEnds - timestamp) / (this.time * 1000);
         return Math.min(Math.max(0, perc), 1);
     }
 

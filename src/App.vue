@@ -11,11 +11,15 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CatalogList from './view/components/Catalog.vue';
+// eslint-disable-next-line no-unused-vars
 import { Business } from './model/data/Business';
-import { Catalog } from './model/data/Catalog';
-import { Wallet } from './model/data/Wallet';
 import { BusinessType } from './model/data/BusinessType';
+import { Catalog } from './model/data/Catalog';
+// eslint-disable-next-line no-unused-vars
+import { Wallet } from './model/data/Wallet';
 import { Manager } from './model/data/Manager';
+import { LocalStorage } from './model/proxies/LocalStorage';
+import { StorageProxy } from './model/proxies/StorageProxy';
 
 @Component({
   components: {
@@ -30,56 +34,76 @@ export default class App extends Vue {
   public beforeMount() {
     this.time = Date.now();
 
-    // business types
-    const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
-    const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
-    const wavesType = new BusinessType('waves', 'waves.png', 'Waves Energy', 720, 6, 540);
-    const hydroType = new BusinessType('hydro', 'hydro.png', 'Hydro Energy', 8640, 12, 4320);
-    const thermalType = new BusinessType('geothermal', 'geothermal.png', 'Geothermal Energy', 103680, 24, 51840);
-    const windType = new BusinessType('wind', 'turbine.png', 'Wind Energy', 1244160, 96, 622080);
-    const solarType = new BusinessType('solar', 'solar.png', 'Solar Energy', 14929920, 288, 7464960);
-
-    // managers (bots)
-    const bot1 = new Manager(pedalType, 'bot1', '', 1000);
-    const bot2 = new Manager(bioType, 'bot2', '', 15000);
-    const bot3 = new Manager(wavesType, 'bot3', '', 100000);
-    const bot4 = new Manager(hydroType, 'bot4', '', 500000);
-    const bot5 = new Manager(thermalType, 'bot5', '', 1200000);
-    const bot6 = new Manager(windType, 'bot6', '', 10000000);
-    const bot7 = new Manager(solarType, 'bot7', '', 111111111);
-
-    // create catalog
-    this.catalog = new Catalog();
-
-    // add businesses to catalog
-    this.catalog.addBusinessType(pedalType);
-    this.catalog.addBusinessType(bioType);
-    this.catalog.addBusinessType(wavesType);
-    this.catalog.addBusinessType(hydroType);
-    this.catalog.addBusinessType(thermalType);
-    this.catalog.addBusinessType(windType);
-    this.catalog.addBusinessType(solarType);
-
-    // add managers to catalog
-    this.catalog.addManager(bot1);
-    this.catalog.addManager(bot2);
-    this.catalog.addManager(bot3);
-    this.catalog.addManager(bot4);
-    this.catalog.addManager(bot5);
-    this.catalog.addManager(bot6);
-    this.catalog.addManager(bot7);
-
-    const pedal = new Business(pedalType, this.time);
-    // create wallet
-    this.wallet = new Wallet();
-    this.wallet.addValue(4);
-    this.wallet.addBusiness(pedal);
+    this.init();
 
     // render update
     setInterval(() => {
       this.time = Date.now();
       this.$forceUpdate();
     }, 100);
+  }
+
+  init() {
+    this.initCatalog();
+    this.initWallet();
+  }
+
+  initCatalog() {
+    const types = this.getTypes();
+    this.createCatalog(types);
+  }
+
+  getTypes():Array<BusinessType> {
+    const typesCfg = require(`@static/config/business-types.json`);
+
+    // business types
+    const types = [];
+    for (const item of typesCfg.list) {
+      const type = new BusinessType(item.id, item.icon, item.name, item.cost, item.time, item.capacity);
+      types.push(type);
+    }
+
+    return types;
+  }
+
+  createCatalog(types:Array<BusinessType>) {
+    // create catalog
+    this.catalog = new Catalog();
+
+    // managers (bots)
+    const managersCfg = require(`@static/config/managers.json`);
+    let count = 0;
+    for (const item of managersCfg.list) {
+      const manager = new Manager(types[count], item.name, item.description, item.cost);
+      this.catalog.addBusinessType(types[count]);
+      this.catalog.addManager(manager);
+      count++;
+    }
+  }
+
+  initWallet() {
+    // Init storage
+    const storage = new StorageProxy(new LocalStorage());
+    const loadedWallet = storage.loadWallet();
+
+    if (loadedWallet) {
+      this.wallet = loadedWallet;
+    } else {
+      // create wallet
+      this.wallet = new Wallet();
+      // Add starting business
+      const types = this.getTypes();
+      const pedal = new Business(types[0], this.time);
+
+      this.wallet.addBusiness(pedal);
+    }
+    this.wallet.addValue(4);
+
+    // auto save loop
+    setInterval(() => {
+      storage.saveWallet(this.wallet);
+      storage.saveTime(this.time);
+    }, 1000);
   }
 }
 </script>

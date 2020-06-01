@@ -4,13 +4,31 @@ import { Manager } from './Manager';
 
 export class Wallet {
     private _items:Array<Business>;
-    private _managers:Map<BusinessType, Manager>;
+    private _managers:Array<Manager>;
     private _value:number;
 
     constructor() {
         this._items = new Array<Business>();
         this._value = 0;
-        this._managers = new Map<BusinessType, Manager>();
+        this._managers = new Array<Manager>();
+    }
+
+    public static parse(obj:any):Wallet {
+        const wallet = new Wallet();
+
+        // Parse businesses
+        for (const item of obj._items) {
+            const business = Business.parse(item);
+            wallet.addBusiness(business);
+        }
+
+        // Parse managers
+        for (const item of obj._managers) {
+            const manager = Manager.parse(item);
+            wallet.addManager(manager, item._hired)
+        }
+
+        return wallet;
     }
 
     get totalBusiness():number {
@@ -30,7 +48,7 @@ export class Wallet {
     }
 
     public totalBusinessOf(type:BusinessType) {
-        const businesses = this._items.filter((business:Business) => business.type === type);
+        const businesses = this._items.filter((business:Business) => business.type.id === type.id);
         return businesses.length;
     }
 
@@ -40,7 +58,7 @@ export class Wallet {
 
     public workBusinessOf(type:BusinessType, timestamp:number) {
         this._items.forEach((business:Business) => {
-            if (business.type === type && business.isReady(timestamp)) {
+            if (business.type.id === type.id && business.isReady(timestamp)) {
                 business.work(timestamp);
             }
         })
@@ -55,7 +73,7 @@ export class Wallet {
     }
 
     public getBusinessOf(type:BusinessType):Array<Business> {
-        const ret = this._items.filter((business:Business) => business.type === type);
+        const ret = this._items.filter((business:Business) => business.type.id === type.id);
         return ret;
     }
 
@@ -71,7 +89,7 @@ export class Wallet {
     public addManager(manager:Manager, timestamp:number) {
         manager.hire(timestamp);
 
-        this._managers.set(manager.type, manager);
+        this._managers.push(manager);
 
         // put him to work!
         const businesses = this.getBusinessOf(manager.type);
@@ -81,12 +99,18 @@ export class Wallet {
     }
 
     public hasManager(type:BusinessType) {
-        return this._managers.has(type);
+        const find = this._managers.filter((manager:Manager) => {
+            return manager.type.id === type.id;
+        });
+        return find.length > 0;
     }
 
     private getManager(type:BusinessType) {
-        if (this.hasManager(type)) {
-            return this._managers.get(type);
+        const find = this._managers.filter((manager:Manager) => {
+            return manager.type.id === type.id;
+        });
+        if (find.length > 0) {
+            return find[0];
         }
 
         return null;
