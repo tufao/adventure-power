@@ -77,11 +77,16 @@ export default class App extends Vue {
 
     // Init storage
     const storage = new StorageProxy(new LocalStorage());
+    const loadedWallet = storage.loadWallet();
 
-    // create wallet
-    this.wallet = storage.loadWallet();
+    if (loadedWallet) {
+      this.wallet = loadedWallet;
+    } else {
+      // create wallet
+      this.wallet = new Wallet(); //
+      this.wallet.addBusiness(pedal);
+    }
     this.wallet.addValue(4);
-    this.wallet.addBusiness(pedal);
 
     // render update
     setInterval(() => {

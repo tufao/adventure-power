@@ -1,5 +1,5 @@
-import { IStorage } from './IStorage';
 import { Wallet } from '../data/Wallet';
+import { IStorage } from './IStorage';
 
 export class StorageProxy {
     private _storage:IStorage;
@@ -13,12 +13,12 @@ export class StorageProxy {
         this._storage.setItem('wallet', data);
     }
 
-    loadWallet():Wallet {
+    loadWallet():Wallet | undefined {
         const data = this._storage.getItem('wallet');
-        if (!data) {
-            return new Wallet();
+        if (data) {
+            return Wallet.parse(JSON.parse(data));
         }
-        const wallet = Wallet.parse(JSON.parse(data));
+        return undefined;
 
         return wallet;
     }

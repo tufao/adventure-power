@@ -9,8 +9,8 @@ export class LocalStorage implements IStorage
         return localStorage.getItem(key);
     }
 
-    public setItem(key:string, value:any):void {
-        localStorage.setItem(key, value.toString());
+    public setItem(key:string, value:string):void {
+        localStorage.setItem(key, value);
     }
 
     public clear():void {
