@@ -36,7 +36,7 @@ export default class BusinessItem extends Vue {
   @Prop() private hireCost!: number;
 
   get icon() {
-    return require(`@static/${this.item.icon}`);
+    return require(`@static/images/${this.item.icon}`);
   }
 }
 </script>
