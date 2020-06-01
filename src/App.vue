@@ -54,23 +54,14 @@ export default class App extends Vue {
   }
 
   getTypes():Array<BusinessType> {
-    // business types
-    const pedalType = new BusinessType('pedal', 'pedal.png', 'Pedaling', 4, 0.5, 1);
-    const bioType = new BusinessType('biomass', 'bioenergy.png', 'Bio Energy', 60, 3, 60);
-    const wavesType = new BusinessType('waves', 'waves.png', 'Waves Energy', 720, 6, 540);
-    const hydroType = new BusinessType('hydro', 'hydro.png', 'Hydro Energy', 8640, 12, 4320);
-    const thermalType = new BusinessType('geothermal', 'geothermal.png', 'Geothermal Energy', 103680, 24, 51840);
-    const windType = new BusinessType('wind', 'turbine.png', 'Wind Energy', 1244160, 96, 622080);
-    const solarType = new BusinessType('solar', 'solar.png', 'Solar Energy', 14929920, 288, 7464960);
+    const typesCfg = require(`@static/config/business-types.json`);
 
+    // business types
     const types = [];
-    types.push(pedalType);
-    types.push(bioType);
-    types.push(wavesType);
-    types.push(hydroType);
-    types.push(thermalType);
-    types.push(windType);
-    types.push(solarType);
+    for (const item of typesCfg.list) {
+      const type = new BusinessType(item.id, item.icon, item.name, item.cost, item.time, item.capacity);
+      types.push(type);
+    }
 
     return types;
   }
