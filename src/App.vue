@@ -67,35 +67,18 @@ export default class App extends Vue {
   }
 
   createCatalog(types:Array<BusinessType>) {
-    // managers (bots)
-    const bot1 = new Manager(types[0], 'bot1', '', 1000);
-    const bot2 = new Manager(types[1], 'bot2', '', 15000);
-    const bot3 = new Manager(types[2], 'bot3', '', 100000);
-    const bot4 = new Manager(types[3], 'bot4', '', 500000);
-    const bot5 = new Manager(types[4], 'bot5', '', 1200000);
-    const bot6 = new Manager(types[5], 'bot6', '', 10000000);
-    const bot7 = new Manager(types[6], 'bot7', '', 111111111);
-
     // create catalog
     this.catalog = new Catalog();
 
-    // add businesses to catalog
-    this.catalog.addBusinessType(types[0]);
-    this.catalog.addBusinessType(types[1]);
-    this.catalog.addBusinessType(types[2]);
-    this.catalog.addBusinessType(types[3]);
-    this.catalog.addBusinessType(types[4]);
-    this.catalog.addBusinessType(types[5]);
-    this.catalog.addBusinessType(types[6]);
-
-    // add managers to catalog
-    this.catalog.addManager(bot1);
-    this.catalog.addManager(bot2);
-    this.catalog.addManager(bot3);
-    this.catalog.addManager(bot4);
-    this.catalog.addManager(bot5);
-    this.catalog.addManager(bot6);
-    this.catalog.addManager(bot7);
+    // managers (bots)
+    const managersCfg = require(`@static/config/managers.json`);
+    let count = 0;
+    for (const item of managersCfg.list) {
+      const manager = new Manager(types[count], item.name, item.description, item.cost);
+      this.catalog.addBusinessType(types[count]);
+      this.catalog.addManager(manager);
+      count++;
+    }
   }
 
   initWallet() {
