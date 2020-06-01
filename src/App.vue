@@ -123,6 +123,9 @@ export default class App extends Vue {
 <style>
 body {
   background-color: white;
+  background-image: url('../public/img/background.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
