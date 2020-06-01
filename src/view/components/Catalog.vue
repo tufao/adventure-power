@@ -117,5 +117,12 @@ export default class CatalogList extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.catalog {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-content: center;
+  height: 700px;
+}
 
 </style>
