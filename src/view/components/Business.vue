@@ -1,12 +1,12 @@
 <template>
-  <div class="business">
+  <div class="business" :class="item.id">
     <div>
       <div>{{ count }}x</div>
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
       <div>{{ item.time }}</div>
       <div>{{ item.capacity * count }} kWh</div>
-      <div><button type="button" @click="$emit('work', item)" :class="{disabled: !ready}">GO!</button></div>
+      <div><button type="button" @click="$emit('work', item)" :class="[!ready ? 'disabled' : '', item.id]">GO!</button></div>
     </div>
     <div class="meter">
       <span :style="{width: progress * 100 + '%'}"></span>
@@ -43,13 +43,48 @@ export default class BusinessItem extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.business.pedal {
+  --theme-color: #f6af33;
+  --theme-color-rgba: rgba(96, 68, 20, .8)
+}
+.business.biomass {
+  --theme-color: #0cb797;
+  --theme-color-rgba: rgba(4, 71, 39, .8)
+}
+.business.waves {
+  --theme-color: #946bad;
+  --theme-color-rgba: rgba(58, 42, 67, .8)
+}
+.business.hydro {
+  --theme-color: #fe5c8e;
+  --theme-color-rgba: rgba(99, 36, 55, .8)
+}
+.business.geothermal {
+  --theme-color: #b4dd97;
+  --theme-color-rgba: rgba(70, 86, 59, .8)
+}
+.business.wind {
+  --theme-color: #8aaad9;
+  --theme-color-rgba: rgba(54, 66, 85, .8)
+}
+.business.solar {
+  --theme-color: #f8554c;
+  --theme-color-rgba: rgba(97, 33, 29, .8)
+}
+
 .business {
+  --theme-color: grey;
   display: flex;
   width: 500px;
   flex-direction: column;
-  border: 1px solid grey;
+  border: 5px solid var(--theme-color);
+  border-radius: 20px;
   margin: 10px;
   padding: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  background-color: white;
+  color: #0f0f2b;
 }
 
 .business > div {
@@ -59,20 +94,22 @@ export default class BusinessItem extends Vue {
 }
 
 button {
-  border: blue;
   color: white;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  font-weight: bold;
   margin: 4px 2px;
   cursor: pointer;
-  background: green;
+  background: var(--theme-color);
+  border-color: var(--theme-color);
+  border-radius: 10px;;
 }
 
 button.disabled {
-  background: grey;
+  background: var(--theme-color-rgba);
 }
 
 .meter {
@@ -93,7 +130,7 @@ button.disabled {
   border-bottom-right-radius: 8px;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
-  background-color: rgb(43,194,83);
+  background-color: var(--theme-color);
   background-image: linear-gradient(
     center bottom,
     rgb(43,194,83) 37%,
@@ -105,4 +142,5 @@ button.disabled {
   position: relative;
   overflow: hidden;
 }
+
 </style>
