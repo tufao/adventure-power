@@ -30,9 +30,13 @@ export default class App extends Vue {
   private wallet!: Wallet;
   private catalog!: Catalog;
   private time!: number;
+  private storage!:StorageProxy;
 
   public beforeMount() {
     this.time = Date.now();
+
+    // Init storage
+    this.storage = new StorageProxy(new LocalStorage());
 
     this.init();
 
@@ -82,12 +86,12 @@ export default class App extends Vue {
   }
 
   initWallet() {
-    // Init storage
-    const storage = new StorageProxy(new LocalStorage());
-    const loadedWallet = storage.loadWallet();
+    const loadedWallet = this.storage.loadWallet();
 
     if (loadedWallet) {
       this.wallet = loadedWallet;
+
+      this.showProgress();
     } else {
       // create wallet
       this.wallet = new Wallet();
@@ -101,9 +105,17 @@ export default class App extends Vue {
 
     // auto save loop
     setInterval(() => {
-      storage.saveWallet(this.wallet);
-      storage.saveTime(this.time);
+      this.storage.saveWallet(this.wallet);
+      this.storage.saveTime(this.time);
     }, 1000);
+  }
+
+  showProgress() {
+    const lastTime = this.storage.loadTime();
+    const lastBalance = this.wallet.balance(lastTime);
+    const currentBalance = this.wallet.balance(Date.now());
+    const gain = currentBalance - lastBalance;
+    alert(`Since last time you made ${gain}kWh!`);
   }
 }
 </script>

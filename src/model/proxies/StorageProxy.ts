@@ -26,7 +26,7 @@ export class StorageProxy {
         this._storage.setItem('time', data);
     }
 
-    loadWTime():number {
+    loadTime():number {
         const data = this._storage.getItem('time');
         if (data) {
             return parseInt(data);
