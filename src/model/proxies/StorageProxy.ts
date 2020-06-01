@@ -19,7 +19,18 @@ export class StorageProxy {
             return Wallet.parse(JSON.parse(data));
         }
         return undefined;
+    }
 
-        return wallet;
+    saveTime(time:number) {
+        const data = JSON.stringify(time);
+        this._storage.setItem('time', data);
+    }
+
+    loadWTime():number {
+        const data = this._storage.getItem('time');
+        if (data) {
+            return parseInt(data);
+        }
+        return 0;
     }
 }
