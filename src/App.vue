@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <h1>Power Adventure</h1>
-    <h2>{{ wallet.balance(time) }} kWh</h2>
-    <div>
+    <h1>Power Adventures</h1>
+    <Welcome v-if="state === 'new'" />
+    <div v-if="state === 'play'">
+      <h2>{{ wallet.balance(time) }} kWh</h2>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
     </div>
   </div>
@@ -11,6 +12,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CatalogList from './view/components/Catalog.vue';
+import Welcome from './view/components/Welcome.vue';
 // eslint-disable-next-line no-unused-vars
 import { Business } from './model/data/Business';
 import { BusinessType } from './model/data/BusinessType';
@@ -24,6 +26,7 @@ import { StorageProxy } from './model/proxies/StorageProxy';
 @Component({
   components: {
     CatalogList,
+    Welcome,
   },
 })
 export default class App extends Vue {
@@ -31,6 +34,7 @@ export default class App extends Vue {
   private catalog!: Catalog;
   private time!: number;
   private storage!:StorageProxy;
+  private state!: string;
 
   public beforeMount() {
     this.time = Date.now();
@@ -48,6 +52,8 @@ export default class App extends Vue {
   }
 
   init() {
+    this.state = 'init';
+
     this.initCatalog();
     this.initWallet();
   }
@@ -89,10 +95,14 @@ export default class App extends Vue {
     const loadedWallet = this.storage.loadWallet();
 
     if (loadedWallet) {
+      this.state = 'play';
+
       this.wallet = loadedWallet;
 
       this.showProgress();
     } else {
+      this.state = 'new';
+
       // create wallet
       this.wallet = new Wallet();
       // Add starting business
@@ -134,7 +144,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: black;
-  margin-top: 60px;
+  margin: 0px;
 
   display: flex;
   flex-direction: column;
