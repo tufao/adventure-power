@@ -4,16 +4,20 @@
       <div>{{ count }}x</div>
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
-      <div>{{ item.time }}</div>
       <div>{{ item.capacity * count }} kWh</div>
-      <div><button type="button" @click="$emit('work', item)" :class="[!ready ? 'disabled' : '', item.id]">GO!</button></div>
+      <div v-if="count > 0">
+        <button type="button" @click="$emit('work', item)" :class="[!ready ? 'disabled' : '', item.id]">GO!</button>
+      </div>
+      <div v-else>
+        <button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy<br />({{ item.cost }} kW)</button>
+      </div>
     </div>
-    <div class="meter">
+    <div class="meter" v-if="count > 0">
       <span :style="{width: progress * 100 + '%'}"></span>
     </div>
-    <div>
-      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy {{ item.cost }} kW</button></div>
-      <div><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate ({{ hireCost }} kW)</button></div>
+    <div v-if="count > 0">
+      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy ({{ item.cost }} kW)</button></div>
+      <div v-if="count > 0"><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate ({{ hireCost }} kW)</button></div>
     </div>
   </div>
 </template>
