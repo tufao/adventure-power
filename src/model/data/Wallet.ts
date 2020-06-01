@@ -48,7 +48,7 @@ export class Wallet {
     }
 
     public totalBusinessOf(type:BusinessType) {
-        const businesses = this._items.filter((business:Business) => business.type === type);
+        const businesses = this._items.filter((business:Business) => business.type.id === type.id);
         return businesses.length;
     }
 
@@ -58,7 +58,7 @@ export class Wallet {
 
     public workBusinessOf(type:BusinessType, timestamp:number) {
         this._items.forEach((business:Business) => {
-            if (business.type === type && business.isReady(timestamp)) {
+            if (business.type.id === type.id && business.isReady(timestamp)) {
                 business.work(timestamp);
             }
         })
@@ -73,7 +73,7 @@ export class Wallet {
     }
 
     public getBusinessOf(type:BusinessType):Array<Business> {
-        const ret = this._items.filter((business:Business) => business.type === type);
+        const ret = this._items.filter((business:Business) => business.type.id === type.id);
         return ret;
     }
 
