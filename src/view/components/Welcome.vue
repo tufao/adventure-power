@@ -1,25 +1,33 @@
 <template>
   <div class="welcome">
-      <h2>Welcome to the Green Energy game!</h2>
+      <h2>Welcome to Power Adventures!</h2>
       <div class="name">
           <div><img src="../../../public/img/lamp.jpeg" width="150" /></div>
-          <div>
+          <div v-if="profit === 0">
               <label>Please enter your name:</label>
               <br />
               <input type="text" name="nick" v-model="nick" />
               <br />
               <button type="button">OK</button>
           </div>
+          <div v-else>
+              Since last time you made {{ profit }}kWh!
+              <br />
+              <br />
+              <button type="button" @click="$emit('close')">OK</button>
+          </div>
         </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
 })
 export default class CatalogList extends Vue {
+  @Prop() private profit!: number;
+
   private nick:string = '';
 
   mounted() {

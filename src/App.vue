@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1>Power Adventures</h1>
-    <Welcome v-if="state === 'new'" />
+    <Welcome v-if="state === 'new' || state === 'progress'" :profit="profit" @close="closeWelcome" />
     <div v-if="state === 'play'">
       <h2>{{ wallet.balance(time) }} kWh</h2>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
@@ -35,6 +35,7 @@ export default class App extends Vue {
   private time!: number;
   private storage!:StorageProxy;
   private state!: string;
+  private profit!: number;
 
   public beforeMount() {
     this.time = Date.now();
@@ -53,6 +54,7 @@ export default class App extends Vue {
 
   init() {
     this.state = 'init';
+    this.profit = 0;
 
     this.initCatalog();
     this.initWallet();
@@ -95,7 +97,7 @@ export default class App extends Vue {
     const loadedWallet = this.storage.loadWallet();
 
     if (loadedWallet) {
-      this.state = 'play';
+      this.state = 'progress';
 
       this.wallet = loadedWallet;
 
@@ -124,8 +126,11 @@ export default class App extends Vue {
     const lastTime = this.storage.loadTime();
     const lastBalance = this.wallet.balance(lastTime);
     const currentBalance = this.wallet.balance(Date.now());
-    const gain = currentBalance - lastBalance;
-    alert(`Since last time you made ${gain}kWh!`);
+    this.profit = currentBalance - lastBalance;
+  }
+
+  closeWelcome() {
+    this.state = 'play';
   }
 }
 </script>

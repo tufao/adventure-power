@@ -122,7 +122,7 @@ export default class CatalogList extends Vue {
   flex-flow: column wrap;
   justify-content: center;
   align-content: center;
-  height: 700px;
+  height: 750px;
 }
 
 </style>
