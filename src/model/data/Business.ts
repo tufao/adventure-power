@@ -22,7 +22,9 @@ export class Business {
         const business = new Business(type, obj._created);
         business.counter = obj._counter;
         business.productionEnds = obj._productionEnds;
-        business.autoStart = obj._autoStart;
+        if (obj._autoStart) {
+            business.autoStart = obj._autoStart;
+        }
         return business;
     }
 
@@ -67,7 +69,7 @@ export class Business {
     }
 
     public getProduction(timestamp:number):number {
-        const auto = this._autoStart ? Math.floor((timestamp - this._autoStart) / (this.time * 1000)) : 0;
+        const auto = this._autoStart ? this.getAutoProduction(timestamp) : 0;
         const last = timestamp >= this._productionEnds ? this.capacity : 0;
         return (this._counter - 1) * this.capacity + last + auto;
     }
@@ -100,5 +102,9 @@ export class Business {
 
     public startAutoWork(timestamp:number) {
         this.autoStart = timestamp;
+    }
+
+    private getAutoProduction(timestamp:number) {
+        return Math.floor((timestamp - this._autoStart) / (this.time * 1000)) * this.capacity;
     }
 }

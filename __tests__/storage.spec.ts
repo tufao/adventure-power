@@ -25,8 +25,10 @@ describe('Testing Storage operations', () => {
         storage.saveWallet(wallet);
 
         const loaded = storage.loadWallet();
-        expect(loaded).toMatchObject(wallet);
-        expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
+        if (loaded) {
+            expect(loaded).toMatchObject(wallet);
+            expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
+        }
     });
 
     it('Loaded wallet has the same balance as before', () => {
@@ -34,7 +36,9 @@ describe('Testing Storage operations', () => {
         storage.saveWallet(wallet);
 
         const loaded = storage.loadWallet();
-        expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
+        if (loaded) {
+            expect(loaded.balance(Date.now())).toBe(wallet.balance(Date.now()));
+        }
     });
 
     it('Loaded wallet has the same balance as before with work', () => {
@@ -47,8 +51,10 @@ describe('Testing Storage operations', () => {
         storage.saveWallet(wallet);
 
         const loaded = storage.loadWallet();
-        time += 5000;
-        expect(loaded.balance(time)).toBe(wallet.balance(time));
+        if (loaded) {
+            time += 5000;
+            expect(loaded.balance(time)).toBe(wallet.balance(time));
+        }
     });
 
     it('Loaded wallet has the same balance as before with managers', () => {
@@ -61,17 +67,21 @@ describe('Testing Storage operations', () => {
         storage.saveWallet(wallet);
 
         const loaded = storage.loadWallet();
-        time += 5000;
-        expect(loaded.balance(time)).toBe(wallet.balance(time));
+        if (loaded) {
+            time += 5000;
+            expect(loaded.balance(time)).toBe(wallet.balance(time));
 
-        expect(wallet.hasManager(typeLemons)).toBeTruthy();
-        expect(loaded.hasManager(typeLemons)).toBeTruthy();
+            expect(wallet.hasManager(typeLemons)).toBeTruthy();
+            expect(loaded.hasManager(typeLemons)).toBeTruthy();
+        }
     });
 
     it('Loaded wallet that was not saved', () => {
         const storage = new StorageProxy(new LocalStorageMock());
         const loaded = storage.loadWallet();
-        expect(loaded.balance(Date.now())).toBe(0);
+        if (loaded) {
+            expect(loaded.balance(Date.now())).toBe(0);
+        }
     });
 
 });
