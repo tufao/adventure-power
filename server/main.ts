@@ -9,14 +9,20 @@ function startServer() {
         const { headers, method, url } = request;
         let data:Uint8Array[] = [];
         request.on('error', (err:string) => {
-          console.error(err);
+            console.error(err);
         }).on('data', (chunk:Uint8Array) => {
-          data.push(chunk);
+            data.push(chunk);
         }).on('end', () => {
+
           if (url === '/save') {
               const body = Buffer.concat(data).toString();
               save(body);
           }
+
+          response.statusCode = 200;
+          response.setHeader('Access-Control-Allow-Origin', '*');
+          response.setHeader('Content-Type', 'text/plain');
+
           if (url === '/balance') {
               const balance = getTotalBalance();
               response.write(balance.toString());
@@ -31,16 +37,20 @@ function startServer() {
 
 function save(data:string):void {
     if (!data) {
+      console.log('Save error: There is no data!');
       return;
     }
 
     const body = JSON.parse(data);
     if (!body.name || !body.wallet) {
+      console.log('Save error: Wrong data!');
       return;
     }
 
     const wallet = Wallet.parse(body.wallet);
     results.set(body.name, wallet);
+
+    console.log('Saved!');
 }
 
 function getTotalBalance():number {

@@ -14,5 +14,17 @@ module.exports = {
                 '@static': path.resolve(path.join(ROOT_DIR, './static'))
             },
         }
-    }
+    },
+
+    chainWebpack: config => {
+        config.module
+          .rule('ts')
+          .use('ts-loader')
+            .loader('ts-loader')
+            .tap(options => {
+                options.configFile = 'tsconfig.webpack.json';
+                return options;
+            })
+            .end()
+      }
 }
