@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Power Adventures</h1>
     <Welcome v-if="state === 'new' || state === 'progress'" :profit="profit" @close="closeWelcome" />
     <div v-if="state === 'play'">
       <h2>{{ format(wallet.balance(time)) }} kW</h2>
