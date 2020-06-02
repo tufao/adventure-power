@@ -4,7 +4,7 @@
       <div>{{ count }}x</div>
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
-      <div>{{ item.capacity * count }} kWh</div>
+      <div>{{ item.capacity * count }} kW</div>
       <div v-if="count > 0">
         <button type="button" @click="$emit('work', item)" :class="[!ready ? 'disabled' : '', item.id]">GO!</button>
       </div>

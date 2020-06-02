@@ -11,7 +11,8 @@
               <button type="button">OK</button>
           </div>
           <div v-else>
-              Since last time you made {{ profit }}kWh!
+              Since last time you made:<br />
+                {{ format(profit) }} kWh!
               <br />
               <br />
               <button type="button" @click="$emit('close')">OK</button>
@@ -30,7 +31,8 @@ export default class CatalogList extends Vue {
 
   private nick:string = '';
 
-  mounted() {
+  format(x:number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
 }
@@ -50,7 +52,7 @@ export default class CatalogList extends Vue {
     border: 5px solid #f6af33;
     z-index: 10;
     padding: 20px;
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .name {

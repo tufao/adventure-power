@@ -3,7 +3,7 @@
     <h1>Power Adventures</h1>
     <Welcome v-if="state === 'new' || state === 'progress'" :profit="profit" @close="closeWelcome" />
     <div v-if="state === 'play'">
-      <h2>{{ wallet.balance(time) }} kWh</h2>
+      <h2>{{ format(wallet.balance(time)) }} kW</h2>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
     </div>
   </div>
@@ -131,6 +131,10 @@ export default class App extends Vue {
 
   closeWelcome() {
     this.state = 'play';
+  }
+
+  format(x:number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }
 </script>
