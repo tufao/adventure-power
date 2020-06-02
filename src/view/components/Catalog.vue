@@ -93,6 +93,8 @@ export default class CatalogList extends Vue {
 
   start(type:BusinessType) {
     this.wallet.workBusinessOf(type, this.time);
+
+    this.$emit('change');
   }
 
   buy(type:BusinessType) {
@@ -103,6 +105,8 @@ export default class CatalogList extends Vue {
 
     const business = new Business(type, this.time);
     this.wallet.addBusiness(business);
+
+    this.$emit('change');
   }
 
   hire(type:BusinessType) {
@@ -119,6 +123,8 @@ export default class CatalogList extends Vue {
     }
 
     this.wallet.addManager(manager, Date.now());
+
+    this.$emit('change');
   }
 }
 </script>

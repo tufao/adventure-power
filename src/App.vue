@@ -3,7 +3,7 @@
     <Welcome v-if="state === 'new' || state === 'progress'" :ftue="ftue" :profit="profit" @close="closeWelcome" />
     <div id="content" v-if="state === 'play'">
       <h2>{{ format(wallet.balance(time)) }} kW</h2>
-      <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
+      <CatalogList :catalog="catalog" :wallet="wallet" :time="time" @change="save" />
       <img id="lamp" src="../public/img/world-lamp.png" width="100" border="0" @click="showWorld" />
     </div>
     <WorldStats v-if="state === 'stats'" @close="closeWelcome" />
