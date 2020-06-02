@@ -17,8 +17,11 @@ function startServer() {
               const body = Buffer.concat(data).toString();
               save(body);
           }
+          if (url === '/balance') {
+              const balance = getTotalBalance();
+              response.write(balance.toString());
+          }
 
-          // response.write('total results: ' + results.length);
           response.end();
         });
     });
@@ -26,7 +29,7 @@ function startServer() {
     server.listen(5000);
 }
 
-function save(data:string) {
+function save(data:string):void {
     if (!data) {
       return;
     }
@@ -38,6 +41,14 @@ function save(data:string) {
 
     const wallet = Wallet.parse(body.wallet);
     results.set(body.name, wallet);
+}
+
+function getTotalBalance():number {
+    let total = 0;
+    for (const wallet of results.values()) {
+      total += wallet.balance(Date.now());
+    }
+    return total;
 }
 
 startServer();
