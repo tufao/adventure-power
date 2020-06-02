@@ -120,9 +120,8 @@ export default class CatalogList extends Vue {
 .catalog {
   display: flex;
   flex-flow: column wrap;
-  justify-content: center;
   align-content: center;
-  height: 750px;
+  height: 800px;
 }
 
 </style>
