@@ -55,6 +55,14 @@
             "cost": 14929920,
             "time": 288,
             "capacity": 7464960
+        },
+        {
+            "id": "nuclear",
+            "icon": "nuclear.jpeg",
+            "name": "Nuclear Power",
+            "cost": 179159040,
+            "time": 864,
+            "capacity": 88023042
         }
     ]
 }

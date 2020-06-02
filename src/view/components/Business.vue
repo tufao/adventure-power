@@ -76,6 +76,10 @@ export default class BusinessItem extends Vue {
   --theme-color: #f8554c;
   --theme-color-rgba: rgba(97, 33, 29, .8)
 }
+.business.nuclear {
+  --theme-color: #333;
+  --theme-color-rgba: rgba(100, 100, 100, .8)
+}
 
 .business {
   --theme-color: grey;
