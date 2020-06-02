@@ -20,6 +20,7 @@ function startServer() {
           }
 
           response.statusCode = 200;
+          response.setHeader('Access-Control-Allow-Origin', '*');
           response.setHeader('Content-Type', 'text/plain');
 
           if (url === '/balance') {

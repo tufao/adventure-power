@@ -9,14 +9,16 @@ export class ServerProxy {
 
     private static async call (method:any, path:string, data:any) {
         return ServerProxy.http({
-          method,
-          headers: { 'content-type': 'text/plain' },
-          url: path,
-          data,
+            method,
+            headers: {
+                'content-type': 'text/plain'
+            },
+            url: path,
+            data,
         }).then((req:any) => {
-          return req.data
+            return req.data
         }).catch(() => {
-          return null
+            return null
         });
     }
 
