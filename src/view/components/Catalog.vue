@@ -58,6 +58,10 @@ export default class CatalogList extends Vue {
     if (this.wallet.hasManager(type)) {
       return false;
     }
+    if (this.getCount(type) === 0) {
+      // no business to manage!
+      return false;
+    }
 
     const manager = this.catalog.getManager(type);
     if (manager) {
@@ -104,6 +108,10 @@ export default class CatalogList extends Vue {
   hire(type:BusinessType) {
     const manager = this.catalog.getManager(type);
     if (!manager) return;
+    if (this.getCount(type) === 0) {
+      // no business to manage!
+      return false;
+    }
 
     if (manager.cost > this.wallet.balance(Date.now())) {
       // not enough currency to buy
