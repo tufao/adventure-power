@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Welcome v-if="state === 'new' || state === 'progress'" :profit="profit" @close="closeWelcome" />
+    <Welcome v-if="state === 'new' || state === 'progress'" :ftue="ftue" :profit="profit" @close="closeWelcome" />
     <div id="content" v-if="state === 'play'">
       <h2>{{ format(wallet.balance(time)) }} kW</h2>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
@@ -41,6 +41,7 @@ export default class App extends Vue {
   private state!: string;
   private profit!: number;
   private nickName!: string;
+  private ftue!:boolean;
 
   public beforeMount() {
     this.time = Date.now();
@@ -116,11 +117,13 @@ export default class App extends Vue {
     if (loadedWallet) {
       this.state = 'progress';
 
+      this.ftue = false;
       this.wallet = loadedWallet;
 
       this.showProgress();
     } else {
       this.state = 'new';
+      this.ftue = true;
 
       // create wallet
       this.wallet = new Wallet();

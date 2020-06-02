@@ -3,7 +3,7 @@
       <h2>Welcome to Power Adventures!</h2>
       <div class="name">
           <div><img src="../../../public/img/lamp.jpeg" width="150" /></div>
-          <div v-if="profit === 0">
+          <div v-if="ftue">
               <label>Please enter your name:</label>
               <br />
               <input type="text" name="nick" v-model="nick" />
@@ -28,6 +28,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 })
 export default class CatalogList extends Vue {
   @Prop() private profit!: number;
+  @Prop() private ftue!: boolean;
 
   private nick:string = '';
 
