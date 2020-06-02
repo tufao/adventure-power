@@ -63,7 +63,7 @@ export class Business {
     }
 
     set autoStart(value:number) {
-        this._autoStart = value;
+        this._autoStart = value < this._created ? this._created : value;
     }
 
     public getProduction(timestamp:number):number {
@@ -99,6 +99,6 @@ export class Business {
     }
 
     public startAutoWork(timestamp:number) {
-        this._autoStart = timestamp;
+        this.autoStart = timestamp;
     }
 }
