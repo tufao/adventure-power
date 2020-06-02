@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { ServerProxy } from '../../model/proxies/ServerProxy';
 
 @Component({
 })
@@ -19,6 +20,10 @@ export default class CatalogList extends Vue {
   private nick:string = '';
 
   async beforeMount() {
+    const balance = await ServerProxy.getWorldBalance();
+    if (balance) {
+        this.balance = balance;
+    }
   }
 
   format(x:number) {

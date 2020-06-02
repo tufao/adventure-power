@@ -7,9 +7,9 @@ export class ServerProxy {
         baseURL: 'http://localhost:5000',
     });
 
-    private static async call (path:string, data:any) {
+    private static async call (method:any, path:string, data:any) {
         return ServerProxy.http({
-          method: 'POST',
+          method,
           headers: { 'content-type': 'text/plain' },
           url: path,
           data,
@@ -26,6 +26,10 @@ export class ServerProxy {
             wallet: wallet
         };
         const data = JSON.stringify(obj);
-        await ServerProxy.call('/save', data);
+        await ServerProxy.call('POST', '/save', data);
+    }
+
+    public static async getWorldBalance () {
+        return await ServerProxy.call('GET', '/balance', null);
     }
 }
