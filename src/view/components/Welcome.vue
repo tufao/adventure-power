@@ -8,7 +8,7 @@
               <br />
               <input type="text" name="nick" v-model="nick" />
               <br />
-              <button type="button">OK</button>
+              <button type="button" @click="$emit('close', nick)">OK</button>
           </div>
           <div v-else>
               Since last time you made:<br />

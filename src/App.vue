@@ -35,6 +35,7 @@ export default class App extends Vue {
   private storage!:StorageProxy;
   private state!: string;
   private profit!: number;
+  private nickName!: string;
 
   public beforeMount() {
     this.time = Date.now();
@@ -128,7 +129,10 @@ export default class App extends Vue {
     this.profit = currentBalance - lastBalance;
   }
 
-  closeWelcome() {
+  closeWelcome(nick:string) {
+    if (nick) {
+      this.nickName = nick;
+    }
     this.state = 'play';
   }
 
