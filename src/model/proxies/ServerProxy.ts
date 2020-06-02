@@ -1,0 +1,31 @@
+import axios from 'axios';
+import { Wallet } from '@/model/data/Wallet';
+
+export class ServerProxy {
+
+    private static http = axios.create({
+        baseURL: 'http://localhost:5000',
+    });
+
+    private static async call (path:string, data:any) {
+        return ServerProxy.http({
+          method: 'POST',
+          headers: { 'content-type': 'text/plain' },
+          url: path,
+          data,
+        }).then((req:any) => {
+          return req.data
+        }).catch(() => {
+          return null
+        });
+    }
+
+    public static async save (name:string, wallet:Wallet) {
+        const obj = {
+            name: name,
+            wallet: wallet
+        };
+        const data = JSON.stringify(obj);
+        await ServerProxy.call('/save', data);
+    }
+}
