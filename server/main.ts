@@ -17,6 +17,10 @@ function startServer() {
               const body = Buffer.concat(data).toString();
               save(body);
           }
+
+          response.statusCode = 200;
+          response.setHeader('Content-Type', 'text/plain');
+
           if (url === '/balance') {
               const balance = getTotalBalance();
               response.write(balance.toString());
