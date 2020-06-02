@@ -21,6 +21,7 @@ import { Wallet } from './model/data/Wallet';
 import { Manager } from './model/data/Manager';
 import { LocalStorage } from './model/proxies/LocalStorage';
 import { StorageProxy } from './model/proxies/StorageProxy';
+import { ServerProxy } from './model/proxies/ServerProxy';
 
 @Component({
   components: {
@@ -50,6 +51,18 @@ export default class App extends Vue {
       this.time = Date.now();
       this.$forceUpdate();
     }, 100);
+
+    // auto save loop
+    setInterval(() => {
+      this.save();
+    }, 30000);
+
+    // exit
+    window.addEventListener("beforeunload", (e) => {
+      this.onClose();
+      (e || window.event).returnValue = true;
+      return true;
+    });
   }
 
   init() {
@@ -114,12 +127,6 @@ export default class App extends Vue {
       this.wallet.addBusiness(pedal);
     }
     this.wallet.addValue(4);
-
-    // auto save loop
-    setInterval(() => {
-      this.storage.saveWallet(this.wallet);
-      this.storage.saveTime(this.time);
-    }, 1000);
   }
 
   showProgress() {
@@ -138,6 +145,16 @@ export default class App extends Vue {
 
   format(x:number) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  save() {
+    this.storage.saveWallet(this.wallet);
+    this.storage.saveTime(this.time);
+    ServerProxy.save(this.nickName, this.wallet);
+  }
+
+  onClose() {
+    this.save()
   }
 }
 </script>
