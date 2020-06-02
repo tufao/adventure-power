@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <Welcome v-if="state === 'new' || state === 'progress'" :profit="profit" @close="closeWelcome" />
+    <Welcome v-if="state === 'new' || state === 'progress'" :ftue="ftue" :profit="profit" @close="closeWelcome" />
     <div id="content" v-if="state === 'play'">
       <h2>{{ format(wallet.balance(time)) }} kW</h2>
-      <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
+      <CatalogList :catalog="catalog" :wallet="wallet" :time="time" @change="save" />
       <img id="lamp" src="../public/img/world-lamp.png" width="100" border="0" @click="showWorld" />
     </div>
     <WorldStats v-if="state === 'stats'" @close="closeWelcome" />
@@ -41,6 +41,7 @@ export default class App extends Vue {
   private state!: string;
   private profit!: number;
   private nickName!: string;
+  private ftue!:boolean;
 
   public beforeMount() {
     this.time = Date.now();
@@ -55,11 +56,6 @@ export default class App extends Vue {
       this.time = Date.now();
       this.$forceUpdate();
     }, 100);
-
-    // auto save loop
-    setInterval(() => {
-      this.save();
-    }, 30000);
 
     // exit
     window.addEventListener("beforeunload", (e) => {
@@ -116,11 +112,13 @@ export default class App extends Vue {
     if (loadedWallet) {
       this.state = 'progress';
 
+      this.ftue = false;
       this.wallet = loadedWallet;
 
       this.showProgress();
     } else {
       this.state = 'new';
+      this.ftue = true;
 
       // create wallet
       this.wallet = new Wallet();
