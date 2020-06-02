@@ -5,19 +5,16 @@
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
       <div>{{ item.capacity * count }} kW</div>
-      <div v-if="count > 0">
+      <div>
         <button type="button" @click="$emit('work', item)" :class="[!ready ? 'disabled' : '', item.id]">GO!</button>
       </div>
-      <div v-else>
-        <button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy<br />({{ item.cost }} kW)</button>
-      </div>
     </div>
-    <div class="meter" v-if="count > 0">
+    <div class="meter">
       <span :style="{width: progress * 100 + '%'}"></span>
     </div>
-    <div v-if="count > 0">
-      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy ({{ item.cost }} kW)</button></div>
-      <div v-if="count > 0"><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate ({{ hireCost }} kW)</button></div>
+    <div>
+      <div><button type="button" @click="$emit('buy', item)" :class="{disabled: !buyable}">1x Buy<br/>({{ format(item.cost) }} kW)</button></div>
+      <div><button type="button" @click="$emit('hire', item)" :class="{disabled: !hirable}">Automate<br/>({{ format(hireCost) }} kW)</button></div>
     </div>
   </div>
 </template>
@@ -41,6 +38,10 @@ export default class BusinessItem extends Vue {
 
   get icon() {
     return require(`@static/images/${this.item.icon}`);
+  }
+
+  format(x:number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }
 </script>
@@ -83,8 +84,8 @@ export default class BusinessItem extends Vue {
   flex-direction: column;
   border: 5px solid var(--theme-color);
   border-radius: 20px;
-  margin: 10px;
-  padding: 10px;
+  margin: 5px;
+  padding: 5px;
   font-size: 18px;
   font-weight: 800;
   background-color: white;
@@ -99,7 +100,7 @@ export default class BusinessItem extends Vue {
 
 button {
   color: white;
-  padding: 15px 32px;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -109,7 +110,7 @@ button {
   cursor: pointer;
   background: var(--theme-color);
   border-color: var(--theme-color);
-  border-radius: 10px;;
+  border-radius: 10px;
 }
 
 button.disabled {
