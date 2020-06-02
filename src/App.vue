@@ -57,11 +57,6 @@ export default class App extends Vue {
       this.$forceUpdate();
     }, 100);
 
-    // auto save loop
-    setInterval(() => {
-      this.save();
-    }, 30000);
-
     // exit
     window.addEventListener("beforeunload", (e) => {
       this.onClose();
