@@ -15,7 +15,7 @@ describe('Testing Manager operations', () => {
     });
 
     it('Add a manager to the wallet', () => {
-        const lemonsManager = new Manager(typeLemons, 'name', 'description', 1000);
+        const lemonsManager = new Manager(typeLemons, 'name', 'description', 10);
 
         const time = Date.now();
         wallet.addManager(lemonsManager, time);
@@ -47,5 +47,14 @@ describe('Testing Manager operations', () => {
 
         time += 2000;
         expect(wallet.getProduction(time)).toBe(26);
+    });
+
+    it('Check manager cost to the wallet', () => {
+        const lemonsManager = new Manager(typeLemons, 'name', 'description', 10);
+
+        const time = Date.now();
+        wallet.addManager(lemonsManager, time);
+
+        expect(wallet.cost).toBe(14);
     });
 });

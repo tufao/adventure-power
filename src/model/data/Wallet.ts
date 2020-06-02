@@ -36,7 +36,9 @@ export class Wallet {
     }
 
     get cost():number {
-        return this._items.reduce((acc:number, curr:Business) => acc + (curr.cost || 0), 0);
+        const costBusiness = this._items.reduce((acc:number, curr:Business) => acc + (curr.cost || 0), 0);
+        const costManagers = this._managers.reduce((acc:number, curr:Manager) => acc + (curr.cost || 0), 0);
+        return costBusiness + costManagers;
     }
 
     public addBusiness(business:Business) {
