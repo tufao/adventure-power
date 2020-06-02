@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <h1>Power Adventure</h1>
-    <h2>{{ wallet.balance(time) }} kWh</h2>
-    <div>
+    <Welcome v-if="state === 'new' || state === 'progress'" :profit="profit" @close="closeWelcome" />
+    <div v-if="state === 'play'">
+      <h2>{{ format(wallet.balance(time)) }} kW</h2>
       <CatalogList :catalog="catalog" :wallet="wallet" :time="time" />
     </div>
   </div>
@@ -11,6 +11,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import CatalogList from './view/components/Catalog.vue';
+import Welcome from './view/components/Welcome.vue';
 // eslint-disable-next-line no-unused-vars
 import { Business } from './model/data/Business';
 import { BusinessType } from './model/data/BusinessType';
@@ -24,6 +25,7 @@ import { StorageProxy } from './model/proxies/StorageProxy';
 @Component({
   components: {
     CatalogList,
+    Welcome,
   },
 })
 export default class App extends Vue {
@@ -31,6 +33,9 @@ export default class App extends Vue {
   private catalog!: Catalog;
   private time!: number;
   private storage!:StorageProxy;
+  private state!: string;
+  private profit!: number;
+  private nickName!: string;
 
   public beforeMount() {
     this.time = Date.now();
@@ -48,6 +53,9 @@ export default class App extends Vue {
   }
 
   init() {
+    this.state = 'init';
+    this.profit = 0;
+
     this.initCatalog();
     this.initWallet();
   }
@@ -89,10 +97,14 @@ export default class App extends Vue {
     const loadedWallet = this.storage.loadWallet();
 
     if (loadedWallet) {
+      this.state = 'progress';
+
       this.wallet = loadedWallet;
 
       this.showProgress();
     } else {
+      this.state = 'new';
+
       // create wallet
       this.wallet = new Wallet();
       // Add starting business
@@ -114,20 +126,37 @@ export default class App extends Vue {
     const lastTime = this.storage.loadTime();
     const lastBalance = this.wallet.balance(lastTime);
     const currentBalance = this.wallet.balance(Date.now());
-    const gain = currentBalance - lastBalance;
-    alert(`Since last time you made ${gain}kWh!`);
+    this.profit = currentBalance - lastBalance;
+  }
+
+  closeWelcome(nick:string) {
+    if (nick) {
+      this.nickName = nick;
+    }
+    this.state = 'play';
+  }
+
+  format(x:number) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 }
 </script>
 
 <style>
+body {
+  background-color: white;
+  background-image: url('../public/img/background.jpg');
+  background-repeat: no-repeat;
+  background-position: top center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: black;
+  margin: 0px;
 
   display: flex;
   flex-direction: column;
