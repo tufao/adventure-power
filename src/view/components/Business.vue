@@ -4,7 +4,7 @@
       <div>{{ count }}x</div>
       <div><img :src="icon" width="50" /></div>
       <div>{{ item.name }}</div>
-      <div>{{ item.capacity * count }} kW</div>
+      <div>{{ format(item.capacity * count) }} kW</div>
       <div>
         <button type="button" @click="$emit('work', item)" :class="[!ready ? 'disabled' : '', item.id]">GO!</button>
       </div>
@@ -90,7 +90,7 @@ export default class BusinessItem extends Vue {
   border-radius: 20px;
   margin: 5px;
   padding: 5px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   background-color: white;
   color: #0f0f2b;
@@ -108,7 +108,7 @@ button {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   margin: 4px 2px;
   cursor: pointer;
