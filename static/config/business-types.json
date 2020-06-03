@@ -1,0 +1,68 @@
+{
+    "list": [
+        {
+            "id": "pedal",
+            "icon": "pedal.png",
+            "name": "Pedaling",
+            "cost": 4,
+            "time": 0.5,
+            "capacity": 1
+        },
+        {
+            "id": "biomass",
+            "icon": "bioenergy.png",
+            "name": "Bio Energy",
+            "cost": 60,
+            "time": 3,
+            "capacity": 60
+        },
+        {
+            "id": "waves",
+            "icon": "waves.png",
+            "name": "Waves Energy",
+            "cost": 720,
+            "time": 6,
+            "capacity": 540
+        },
+        {
+            "id": "hydro",
+            "icon": "hydro.png",
+            "name": "Hydro Energy",
+            "cost": 8640,
+            "time": 12,
+            "capacity": 4320
+        },
+        {
+            "id": "geothermal",
+            "icon": "geothermal.png",
+            "name": "Geothermal Energy",
+            "cost": 103680,
+            "time": 24,
+            "capacity": 51840
+        },
+        {
+            "id": "wind",
+            "icon": "turbine.png",
+            "name": "Wind Energy",
+            "cost": 1244160,
+            "time": 96,
+            "capacity": 622080
+        },
+        {
+            "id": "solar",
+            "icon": "solar.png",
+            "name": "Solar Energy",
+            "cost": 14929920,
+            "time": 288,
+            "capacity": 7464960
+        },
+        {
+            "id": "nuclear",
+            "icon": "nuclear.jpeg",
+            "name": "Nuclear Power",
+            "cost": 179159040,
+            "time": 864,
+            "capacity": 88023042
+        }
+    ]
+}

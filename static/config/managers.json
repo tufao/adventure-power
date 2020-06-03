@@ -1,0 +1,44 @@
+{
+    "list": [
+        {
+            "name": "bot1",
+            "description": "",
+            "cost": 1000
+        },
+        {
+            "name": "bot2",
+            "description": "",
+            "cost": 15000
+        },
+        {
+            "name": "bot3",
+            "description": "",
+            "cost": 100000
+        },
+        {
+            "name": "bot4",
+            "description": "",
+            "cost": 500000
+        },
+        {
+            "name": "bot5",
+            "description": "",
+            "cost": 1200000
+        },
+        {
+            "name": "bot6",
+            "description": "",
+            "cost": 10000000
+        },
+        {
+            "name": "bot7",
+            "description": "",
+            "cost": 111111111
+        },
+        {
+            "name": "bot8",
+            "description": "",
+            "cost": 555555555
+        }
+    ]
+}
