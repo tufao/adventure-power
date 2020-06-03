@@ -122,13 +122,14 @@ export default class App extends Vue {
 
       // create wallet
       this.wallet = new Wallet();
+      //  add just enough to buy first business
+      this.wallet.addValue(4);
       // Add starting business
       const types = this.getTypes();
       const pedal = new Business(types[0], this.time);
 
       this.wallet.addBusiness(pedal);
     }
-    this.wallet.addValue(4);
   }
 
   showProgress() {
