@@ -28,6 +28,8 @@ export class Wallet {
             wallet.addManager(manager, item._hired)
         }
 
+        wallet.addValue(obj._value);
+
         return wallet;
     }
 
