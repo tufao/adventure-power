@@ -1,7 +1,7 @@
 # Power Adventures
 
 ## Description
-Development of this basic idle game was inpired by Adventure Capitalist game. Where the basic idea is to generate energy intead of money, energy plants need to be acquired to generate more power to upgrade the plants and acquire more energy plants.
+Development of this basic idle game was inpired by Adventure Capitalist game. Where the basic idea is to generate energy intead of money, energy power plants need to be acquired to generate more power to upgrade the power plants and acquire more power plants.
 
 The way to gain energy in Power Adventures is once you’ve acquired a power plant, you need to click on the power plant that will take some time to harvast energy. Once done, you can click again.
 In order to automate this, you can acquire the automation system that can run the power plant for you, so you don’t have to click manually anymore. Then you can upgrade the power plant and generate even more energy.
